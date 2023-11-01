@@ -14,4 +14,8 @@ public interface ChannelService {
 	Channel updateChannel(Integer id, Channel channel);
 
 	void deleteChannel(Integer id);
+
+	Channel findByCreatorId(Integer id);
+
+	
 }

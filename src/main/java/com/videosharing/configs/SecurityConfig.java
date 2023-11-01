@@ -1,6 +1,8 @@
 package com.videosharing.configs;
 
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.videosharing.filters.JwtAuthFilter;
 
@@ -35,14 +40,30 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> {
-			auth.requestMatchers("/welcome", "/login/sign-up", "/login").permitAll().requestMatchers("/api/**","/admin/**")
+		return http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(auth -> {
+			auth.requestMatchers("/welcome", "/login/sign-up", "/login","/login/refreshToken").permitAll().requestMatchers("/api/**","/admin/**")
 					.authenticated();
 		}).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration corsConfiguration = new CorsConfiguration();
+	    
+	    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+	    corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+	    corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+	    corsConfiguration.setExposedHeaders(Arrays.asList("Authorization"));
+	    corsConfiguration.setAllowCredentials(true);
+
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", corsConfiguration);
+
+	    return source;
+	}
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

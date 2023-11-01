@@ -31,11 +31,14 @@ public class UserController {
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id, Authentication authentication) {
 		CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
 		User currentUser = currentUserDetails.getUser();
+		System.out.println(id);
 
+		System.out.println(currentUser.getId());
 		User targetUser = userService.getUserById(id);
 
 		if (currentUser.getId().equals(targetUser.getId())) {
 			UserDTO userDTO = UserMapper.toDTO(userService.getFullUserDetails(targetUser));
+
 			return ResponseEntity.ok(userDTO);
 		} else {
 			UserDTO userDTO = UserMapper.toDTO(userService.getSafeUserDetails(targetUser));
@@ -46,9 +49,11 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDTO> updateUser(@PathVariable Integer id, @RequestBody UserUpdateDTO userUpdateDTO,
 			Authentication authentication) {
+		System.out.println(id);
 
 		CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
 		User currentUser = currentUserDetails.getUser();
+		System.out.println(currentUser.getId());
 
 		if (currentUser.getId().equals(id)) {
 			User user = UserUpdateMapper.toModel(userUpdateDTO);
@@ -58,6 +63,7 @@ public class UserController {
 
 		} else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
 		}
 
 	}

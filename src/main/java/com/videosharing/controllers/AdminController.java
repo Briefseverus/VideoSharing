@@ -17,12 +17,10 @@ import com.videosharing.dtos.CategoriesDTO;
 import com.videosharing.dtos.ChannelDTO;
 import com.videosharing.dtos.UserDTO;
 import com.videosharing.dtos.VideoTagsDTO;
-import com.videosharing.dtos.VideoViewDTO;
 import com.videosharing.mappers.CategoriesMapper;
 import com.videosharing.mappers.ChannelMapper;
 import com.videosharing.mappers.UserMapper;
 import com.videosharing.mappers.VideoTagsMapper;
-import com.videosharing.mappers.VideoViewMapper;
 import com.videosharing.services.CategoriesService;
 import com.videosharing.services.ChannelService;
 import com.videosharing.services.UserService;
@@ -98,20 +96,7 @@ public class AdminController {
 		videoTagsService.deleteVideoTags(id);
 	}
 
-	// VideoView
-
-	@Secured("ROLE_ADMIN")
-	@PutMapping("/video-views/{id}")
-	public VideoViewDTO adminUpdateVideoView(@PathVariable Integer id, @RequestBody VideoViewDTO videoViewDTO) {
-		return VideoViewMapper.toDTO(videoViewService.updateVideoView(id, VideoViewMapper.toModel(videoViewDTO)));
-	}
-
-	@Secured("ROLE_ADMIN")
-	@DeleteMapping("/video-views/{id}")
-	public void adminDeleteVideoView(@PathVariable Integer id) {
-		videoViewService.deleteVideoView(id);
-	}
-
+	
 	// Categories
 	@Secured("ROLE_ADMIN")
 	@PostMapping("/categories")

@@ -43,18 +43,18 @@ public class AuthenticateController {
 		return "login";
 	}
 
-	@PostMapping
-	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-		if (authentication.isAuthenticated()) {
-			return jwtService.generateToken(authRequest.getUsername());
-		} else {
-			throw new UsernameNotFoundException("invalid user request !");
-		}
-
-	}
-
+	 @PostMapping
+	    public JwtResponse authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+	        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+	        if (authentication.isAuthenticated()) {
+	            RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequest.getUsername());
+	            return JwtResponse.builder()
+	                    .accessToken(jwtService.generateToken(authRequest.getUsername()))
+	                    .token(refreshToken.getToken()).build();
+	        } else {
+	            throw new UsernameNotFoundException("invalid user request !");
+	        }
+	    }
 	@PostMapping("/sign-up")
 	public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
 

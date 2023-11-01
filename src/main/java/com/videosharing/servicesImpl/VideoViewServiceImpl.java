@@ -1,10 +1,12 @@
 package com.videosharing.servicesImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.videosharing.models.Video;
 import com.videosharing.models.VideoView;
 import com.videosharing.repositories.VideoViewRepository;
 import com.videosharing.services.VideoViewService;
@@ -15,31 +17,25 @@ public class VideoViewServiceImpl implements VideoViewService {
 	private VideoViewRepository videoViewRepository;
 
 	@Override
-	public VideoView getVideoViewById(Integer id) {
-		return videoViewRepository.findById(id).orElse(null);
+	public int getTotalViewsForVideo(Integer videoId) {
+		return videoViewRepository.countByVideoId(videoId);
 	}
 
 	@Override
-	public List<VideoView> getAllVideoViews() {
-		return videoViewRepository.findAll();
+	public List<VideoView> getAllVideoViewByVideoID(Integer videoId) {
+		return videoViewRepository.findAllByVideoId(videoId);
 	}
 
 	@Override
-	public VideoView createVideoView(VideoView videoView) {
+	public VideoView createVideoView(String viewerIp,Video video) {
+		
+		VideoView videoView = new VideoView();
+		videoView.setVideo(video);
+		videoView.setViewerIp(viewerIp);
+		videoView.setViewDatetime(new Date());
+
 		return videoViewRepository.save(videoView);
 	}
 
-	@Override
-	public VideoView updateVideoView(Integer id, VideoView videoView) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public void deleteVideoView(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	// Cài đặt các phương thức tương tự cho VideoView
 }

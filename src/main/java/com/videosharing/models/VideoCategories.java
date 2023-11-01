@@ -1,5 +1,7 @@
 package com.videosharing.models;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -32,5 +34,9 @@ public class VideoCategories {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Categories categories;
+
+	public List<Video> getVideos() {
+	    return List.of(video);
+	}
 
 }

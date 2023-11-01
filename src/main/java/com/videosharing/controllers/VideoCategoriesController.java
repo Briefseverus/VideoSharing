@@ -30,7 +30,7 @@ public class VideoCategoriesController {
 
 	@GetMapping
 	public List<VideoCategoriesDTO> getAllVideoCategoriess() {
-		return VideoCategoriesMapper.toDTOList(videoCategoriesService.getAllVideoCategoriess());
+		return VideoCategoriesMapper.toDTOList(videoCategoriesService.getAllVideoCategories());
 	}
 
 	@PostMapping

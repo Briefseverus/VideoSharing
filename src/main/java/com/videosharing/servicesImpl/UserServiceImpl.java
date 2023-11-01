@@ -75,23 +75,36 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(Integer id, User user) {
-		User existingUser = userRepository.findById(id).orElse(null);
-		if (existingUser != null) {
+	    User existingUser = userRepository.findById(id).orElse(null);
 
-			if (user.getUsername() != null) {
-				existingUser.setUsername(user.getUsername());
-			}
-			if (user.getEmail() != null) {
-				existingUser.setEmail(user.getEmail());
-			}
-			if (user.getPassword() != null) {
-				existingUser.setPassword(user.getPassword());
-			}
+	    if (existingUser != null) {
+	        String newUsername = user.getUsername();
 
-			return userRepository.save(existingUser);
-		}
-		return null;
+	        
+	        if (newUsername != null && userRepository.existsByUsernameAndIdNot(newUsername, id)) {
+	            throw new RuntimeException("Username already exists");
+	        }
+
+	        if (user.getEmail() != null) {
+	            existingUser.setEmail(user.getEmail());
+	        }
+
+	        if (user.getPassword() != null) {
+	            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+	        }
+
+	        if (newUsername != null) {
+	            existingUser.setUsername(newUsername);
+	        }
+
+	        return userRepository.save(existingUser);
+	    } else {
+	        System.out.println("Cannot update user");
+	    }
+
+	    return null;
 	}
+
 
 	@Override
 	public void deleteUser(Integer id) {

@@ -8,4 +8,7 @@ import com.videosharing.models.RefreshToken;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Integer> {
 	Optional<RefreshToken> findByToken(String token);
+
+	Optional<RefreshToken> findByUserId(Integer userId);
+
 }

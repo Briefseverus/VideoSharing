@@ -1,20 +1,25 @@
 package com.videosharing.dtos;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
-public class VideoDTO {
+public class VideoSummaryDTO {
+
 	private Integer id;
+
 	private String title;
+
 	private String description;
+
 	private String videoUrl;
-	private String fileName;
-	private Date uploadDate;
+
 	private Integer duration;
-	private UserDTO uploader;
-	private ChannelDTO channel;
+
+	private Integer viewCount;
+
+	private UserBasicInfoDTO uploader;
+
+	private ChannelBasicInfoDTO channel;
 	private String firebaseId;
 
 }

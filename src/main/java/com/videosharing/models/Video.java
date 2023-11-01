@@ -47,6 +47,9 @@ public class Video {
 	@Column(name = "duration")
 	private Integer duration;
 
+	@Column(name ="firebase_id")
+	private String firebaseId;
+	
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "uploader_id")

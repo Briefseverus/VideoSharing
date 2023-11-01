@@ -20,7 +20,7 @@ public class VideoCategoriesServiceImpl implements VideoCategoriesService {
     }
 
     @Override
-    public List<VideoCategories> getAllVideoCategoriess() {
+    public List<VideoCategories> getAllVideoCategories() {
         return VideoCategoriesRepository.findAll();
     }
 
