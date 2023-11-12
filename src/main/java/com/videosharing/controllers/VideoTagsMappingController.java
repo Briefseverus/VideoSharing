@@ -21,29 +21,32 @@ import com.videosharing.services.VideoTagsMappingService;
 public class VideoTagsMappingController {
 
 	@Autowired
+	private VideoTagsMappingMapper videoTagsMappingMapper;
+	
+	@Autowired
 	private VideoTagsMappingService videoTagsMappingService;
 
 	@GetMapping("/{id}")
 	public VideoTagsMappingDTO getVideoTagsMappingById(@PathVariable Integer id) {
-		return VideoTagsMappingMapper.toDTO(videoTagsMappingService.getVideoTagsMappingById(id));
+		return videoTagsMappingMapper.toDTO(videoTagsMappingService.getVideoTagsMappingById(id));
 	}
 
 	@GetMapping
 	public List<VideoTagsMappingDTO> getAllVideoTagsMappings() {
-		return VideoTagsMappingMapper.toDTOList(videoTagsMappingService.getAllVideoTagsMappings());
+		return videoTagsMappingMapper.toDTOList(videoTagsMappingService.getAllVideoTagsMappings());
 	}
 
 	@PostMapping
 	public VideoTagsMappingDTO createVideoTagsMapping(@RequestBody VideoTagsMappingDTO videoTagsMappingDTO) {
-		return VideoTagsMappingMapper.toDTO(
-				videoTagsMappingService.createVideoTagsMapping(VideoTagsMappingMapper.toModel(videoTagsMappingDTO)));
+		return videoTagsMappingMapper.toDTO(
+				videoTagsMappingService.createVideoTagsMapping(videoTagsMappingMapper.toModel(videoTagsMappingDTO)));
 	}
 
 	@PutMapping("/{id}")
 	public VideoTagsMappingDTO updateVideoTagsMapping(@PathVariable Integer id,
 			@RequestBody VideoTagsMappingDTO videoTagsMappingDTO) {
-		return VideoTagsMappingMapper.toDTO(videoTagsMappingService.updateVideoTagsMapping(id,
-				VideoTagsMappingMapper.toModel(videoTagsMappingDTO)));
+		return videoTagsMappingMapper.toDTO(videoTagsMappingService.updateVideoTagsMapping(id,
+				videoTagsMappingMapper.toModel(videoTagsMappingDTO)));
 	}
 
 	@DeleteMapping("/{id}")

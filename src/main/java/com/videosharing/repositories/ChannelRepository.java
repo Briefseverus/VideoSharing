@@ -1,5 +1,6 @@
 package com.videosharing.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,5 @@ import com.videosharing.models.Channel;
 public interface ChannelRepository extends JpaRepository<Channel, Integer> {
 
 	Optional<Channel> findByName(String channelName);
-	Channel findByCreatorId(Integer creatorId);
+	List<Channel> findByCreatorId(Integer creatorId);
 }

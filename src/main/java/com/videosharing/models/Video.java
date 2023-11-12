@@ -3,6 +3,8 @@ package com.videosharing.models;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -35,25 +37,20 @@ public class Video {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "video_url")
-	private String videoURL;
-
 	@Column(name = "filename")
 	private String filename;
 
 	@Column(name = "upload_date")
+	@CreationTimestamp
 	private Date uploadDate;
 
 	@Column(name = "duration")
-	private Integer duration;
+	private long duration;
 
-	@Column(name ="firebase_id")
-	private String firebaseId;
+	@Column(name = "videoUrl")
+	private String videoUrl;
+
 	
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "uploader_id")
-	private User uploader;
 
 	@JsonBackReference
 	@ManyToOne

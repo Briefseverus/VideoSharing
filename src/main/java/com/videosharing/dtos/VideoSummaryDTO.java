@@ -11,15 +11,13 @@ public class VideoSummaryDTO {
 
 	private String description;
 
-	private String videoUrl;
+	
 
-	private Integer duration;
+	private long duration;
 
 	private Integer viewCount;
 
-	private UserBasicInfoDTO uploader;
 
 	private ChannelBasicInfoDTO channel;
-	private String firebaseId;
 
 }

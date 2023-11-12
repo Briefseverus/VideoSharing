@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.annotations.ColumnDefault;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -53,10 +53,7 @@ public class User {
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
 	private List<Channel> channels;
 
-	@JsonManagedReference
-	@OneToMany(mappedBy = "uploader", cascade = CascadeType.ALL)
-	private List<Video> uploadedVideos;
-
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserChannelSub> subscriptions;

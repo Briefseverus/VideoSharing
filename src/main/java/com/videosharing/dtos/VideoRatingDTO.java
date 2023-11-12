@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class VideoRatingDTO {
 	private Integer id;
-	private VideoDTO video;
-	private UserDTO user;
+	private int videoId;
+	private int userId;
 	private Integer rating;
 	private Date ratedDate;
 }

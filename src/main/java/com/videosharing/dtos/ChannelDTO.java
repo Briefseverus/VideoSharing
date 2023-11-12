@@ -10,5 +10,7 @@ public class ChannelDTO {
 	private String name;
 	private String description;
 	private Date createDate;
-	private UserBasicInfoDTO creator;
+	private int creatorId;
+	private int subcribers;
+	
 }

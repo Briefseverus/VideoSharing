@@ -2,7 +2,6 @@ package com.videosharing.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,48 +26,66 @@ import com.videosharing.services.UserService;
 import com.videosharing.services.VideoTagsService;
 import com.videosharing.services.VideoViewService;
 
+@Secured("ROLE_ADMIN")
 @RestController
-@RequestMapping("/api/admin")
-public class AdminController {
+@RequestMapping("/api/manage")
+public class ManageController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	private VideoTagsService videoTagsService;
+	private final VideoTagsService videoTagsService;
 
-	@Autowired
-	private VideoViewService videoViewService;
+	private final VideoViewService videoViewService;
 
-	@Autowired
-	private CategoriesService categoriesService;
+	private final CategoriesService categoriesService;
 
-	@Autowired
-	private ChannelService channelService;
+	private final ChannelService channelService;
 
-	// User
+	private final UserMapper userMapper;
 
-	@GetMapping("/users/{id}")
-	public UserDTO adminGetUserById(@PathVariable Integer id) {
-		return UserMapper.toDTO(userService.getUserById(id));
+	private final VideoTagsMapper videoTagsMapper;
+
+	private final CategoriesMapper categoriesMapper;
+
+	private final ChannelMapper channelMapper;
+
+	public ManageController(UserService userService, VideoTagsService videoTagsService,
+			VideoViewService videoViewService, CategoriesService categoriesService, ChannelService channelService,
+			UserMapper userMapper, VideoTagsMapper videoTagsMapper, CategoriesMapper categoriesMapper,
+			ChannelMapper channelMapper) {
+
+		this.userService = userService;
+		this.videoTagsService = videoTagsService;
+		this.videoViewService = videoViewService;
+		this.categoriesService = categoriesService;
+		this.channelService = channelService;
+		this.userMapper = userMapper;
+		this.videoTagsMapper = videoTagsMapper;
+		this.categoriesMapper = categoriesMapper;
+		this.channelMapper = channelMapper;
 	}
 
-	@Secured("ROLE_ADMIN")
+	// User
+	@GetMapping("/users/{id}")
+	public UserDTO adminGetUserById(@PathVariable Integer id) {
+		return userMapper.toDTO(userService.getUserById(id));
+	}
+
 	@GetMapping("/users")
 	public List<UserDTO> adminGetAllUsers() {
-		return UserMapper.toDTOList(userService.getAllUsers());
+		return userMapper.toDTOList(userService.getAllUsers());
 	}
 
 	@Secured("ROLE_ADMIN")
 	@PostMapping("/users")
 	public UserDTO adminCreateUser(@RequestBody UserDTO userDTO) {
-		return UserMapper.toDTO(userService.createUser(UserMapper.toModel(userDTO)));
+		return userMapper.toDTO(userService.createUser(userMapper.toModel(userDTO)));
 	}
 
 	@Secured("ROLE_ADMIN")
 	@PutMapping("/users/{id}")
 	public UserDTO adminUpdateUser(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
-		return UserMapper.toDTO(userService.updateUser(id, UserMapper.toModel(userDTO)));
+		return userMapper.toDTO(userService.updateUser(id, userMapper.toModel(userDTO)));
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -81,13 +98,13 @@ public class AdminController {
 	@Secured("ROLE_ADMIN")
 	@PostMapping("/video-tags/")
 	public VideoTagsDTO adminCreateVideoTags(@RequestBody VideoTagsDTO videoTagsDTO) {
-		return VideoTagsMapper.toDTO(videoTagsService.createVideoTags(VideoTagsMapper.toModel(videoTagsDTO)));
+		return videoTagsMapper.toDTO(videoTagsService.createVideoTags(videoTagsMapper.toModel(videoTagsDTO)));
 	}
 
 	@Secured("ROLE_ADMIN")
 	@PutMapping("/video-tags/{id}")
 	public VideoTagsDTO adminUpdateVideoTags(@PathVariable Integer id, @RequestBody VideoTagsDTO videoTagsDTO) {
-		return VideoTagsMapper.toDTO(videoTagsService.updateVideoTags(id, VideoTagsMapper.toModel(videoTagsDTO)));
+		return videoTagsMapper.toDTO(videoTagsService.updateVideoTags(id, videoTagsMapper.toModel(videoTagsDTO)));
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -96,18 +113,17 @@ public class AdminController {
 		videoTagsService.deleteVideoTags(id);
 	}
 
-	
 	// Categories
 	@Secured("ROLE_ADMIN")
 	@PostMapping("/categories")
 	public CategoriesDTO adminCreateCategory(@RequestBody CategoriesDTO categoryDTO) {
-		return CategoriesMapper.toDTO(categoriesService.createCategory(CategoriesMapper.toModel(categoryDTO)));
+		return categoriesMapper.toDTO(categoriesService.createCategory(categoriesMapper.toModel(categoryDTO)));
 	}
 
 	@Secured("ROLE_ADMIN")
 	@PutMapping("/categories/{id}")
 	public CategoriesDTO adminUpdateCategory(@PathVariable Integer id, @RequestBody CategoriesDTO categoryDTO) {
-		return CategoriesMapper.toDTO(categoriesService.updateCategory(id, CategoriesMapper.toModel(categoryDTO)));
+		return categoriesMapper.toDTO(categoriesService.updateCategory(id, categoriesMapper.toModel(categoryDTO)));
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -126,6 +142,6 @@ public class AdminController {
 	@Secured("ROLE_ADMIN")
 	@GetMapping
 	public List<ChannelDTO> adminGetAllChannels() {
-		return ChannelMapper.toDTOList(channelService.getAllChannels());
+		return channelMapper.toDTOList(channelService.getAllChannels());
 	}
 }

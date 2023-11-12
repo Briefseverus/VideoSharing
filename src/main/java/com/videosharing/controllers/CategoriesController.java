@@ -15,18 +15,21 @@ import com.videosharing.services.CategoriesService;
 @RestController
 @RequestMapping("/api/categories")
 public class CategoriesController {
+	
+	@Autowired
+	private CategoriesMapper categoriesMapper;
 
 	@Autowired
 	private CategoriesService categoriesService;
 
 	@GetMapping("/{id}")
 	public CategoriesDTO getCategoryById(@PathVariable Integer id) {
-		return CategoriesMapper.toDTO(categoriesService.getCategoryById(id));
+		return categoriesMapper.toDTO(categoriesService.getCategoryById(id));
 	}
 
 	@GetMapping
 	public List<CategoriesDTO> getAllCategories() {
-		return CategoriesMapper.toDTOList(categoriesService.getAllCategories());
+		return categoriesMapper.toDTOList(categoriesService.getAllCategories());
 	}
 
 	

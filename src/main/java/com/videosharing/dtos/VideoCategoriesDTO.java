@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class VideoCategoriesDTO {
 private Integer id;
-private VideoDTO video;
-private CategoriesDTO categories;
+private int videoId;
+private int categoriesId;
 }

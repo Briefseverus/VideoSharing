@@ -1,13 +1,11 @@
 package com.videosharing.servicesImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.videosharing.models.Channel;
-import com.videosharing.models.User;
 import com.videosharing.repositories.ChannelRepository;
 import com.videosharing.services.ChannelService;
 
@@ -34,14 +32,12 @@ public class ChannelServiceImpl implements ChannelService {
 	@Override
 	public Channel updateChannel(Integer id, Channel channel) {
 		Channel existingChannel = channelRepository.findById(id).orElse(null);
-		if (existingChannel != null) {
+		if (existingChannel == null) return null;
 			// Update channel properties here
-			existingChannel.setName(channel.getName());
-			existingChannel.setDescription(channel.getDescription());
-			// ...
-			return channelRepository.save(existingChannel);
-		}
-		return null;
+		existingChannel.setName(channel.getName());
+		existingChannel.setDescription(channel.getDescription());
+		// ...
+		return channelRepository.save(existingChannel);
 	}
 
 	@Override
@@ -50,8 +46,14 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public Channel findByCreatorId(Integer id) {
+	public List<Channel> findByCreatorId(Integer id) {
 		 return channelRepository.findByCreatorId(id);
 	}
+	@Override
+	public boolean isOwner(Integer channelId, Integer userId) {
+	    Channel channel = getChannelById(channelId);
+	    return channel != null && channel.getCreator().getId().equals(userId);
+	}
+
 
 }

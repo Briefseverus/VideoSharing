@@ -10,4 +10,5 @@ public interface VideoCategoriesService {
     VideoCategories createVideoCategories(VideoCategories VideoCategories);
 	VideoCategories updateVideoCategories(Integer id, VideoCategories videoCategories);
 	void deleteVideoCategories(Integer id);
+	
 }

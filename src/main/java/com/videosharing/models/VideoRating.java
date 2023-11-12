@@ -2,6 +2,8 @@ package com.videosharing.models;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -39,6 +41,7 @@ public class VideoRating {
 	private Integer rating;
 
 	@Column(name = "rated_date")
+	@CreationTimestamp
 	private Date ratedDate;
 
 }

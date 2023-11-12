@@ -33,6 +33,9 @@ public class AuthenticateController {
 	private RefreshTokenService refreshTokenService;
 
 	@Autowired
+	private UserMapper userMapper;
+	
+	@Autowired
 	private JwtService jwtService;
 
 	@Autowired
@@ -60,10 +63,10 @@ public class AuthenticateController {
 
 		try {
 
-			User user = UserMapper.toModel(userDTO);
+			User user = userMapper.toModel(userDTO);
 			userService.createUser(user);
 
-			UserDTO createdUser = UserMapper.toDTO(user);
+			UserDTO createdUser = userMapper.toDTO(user);
 			return ResponseEntity.ok(createdUser);
 
 		} catch (RuntimeException e) {

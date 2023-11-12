@@ -2,6 +2,8 @@ package com.videosharing.models;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -36,6 +38,7 @@ public class UserChannelSub {
 	private Channel channel;
 
 	@Column(name = "subscribe_date")
+	@CreationTimestamp
 	private Date subscribeDate;
 
 }

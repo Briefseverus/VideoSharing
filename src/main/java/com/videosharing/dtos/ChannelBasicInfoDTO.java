@@ -7,4 +7,5 @@ public class ChannelBasicInfoDTO {
 
 	private Integer id;
 	private String name;
+	
 }

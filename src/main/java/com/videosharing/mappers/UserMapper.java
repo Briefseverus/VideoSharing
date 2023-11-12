@@ -3,12 +3,15 @@ package com.videosharing.mappers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.videosharing.dtos.UserDTO;
 import com.videosharing.models.User;
 
+@Component
 public class UserMapper {
 
-	public static UserDTO toDTO(User model) {
+	public  UserDTO toDTO(User model) {
 		UserDTO dto = new UserDTO();
 		dto.setId(model.getId());
 		dto.setUsername(model.getUsername());
@@ -20,11 +23,11 @@ public class UserMapper {
 		return dto;
 	}
 
-	public static List<UserDTO> toDTOList(List<User> models) {
+	public  List<UserDTO> toDTOList(List<User> models) {
 		return models.stream().map(cat -> toDTO(cat)).collect(Collectors.toList());
 	}
 
-	public static User toModel(UserDTO dto) {
+	public  User toModel(UserDTO dto) {
 		User model = new User();
 		model.setId(dto.getId());
 		model.setUsername(dto.getUsername());

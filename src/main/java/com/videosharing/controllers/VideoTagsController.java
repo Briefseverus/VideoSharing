@@ -17,16 +17,19 @@ import com.videosharing.services.VideoTagsService;
 public class VideoTagsController {
 
 	@Autowired
+	private VideoTagsMapper videoTagsMapper;
+	
+	@Autowired
 	private VideoTagsService videoTagsService;
 
 	@GetMapping("/{id}")
 	public VideoTagsDTO getVideoTagsById(@PathVariable Integer id) {
-		return VideoTagsMapper.toDTO(videoTagsService.getVideoTagsById(id));
+		return videoTagsMapper.toDTO(videoTagsService.getVideoTagsById(id));
 	}
 
 	@GetMapping
 	public List<VideoTagsDTO> getAllVideoTags() {
-		return VideoTagsMapper.toDTOList(videoTagsService.getAllVideoTags());
+		return videoTagsMapper.toDTOList(videoTagsService.getAllVideoTags());
 	}
 
 

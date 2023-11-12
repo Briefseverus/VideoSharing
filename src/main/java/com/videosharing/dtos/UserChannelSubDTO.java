@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class UserChannelSubDTO {
 	private Integer id;
-	private UserDTO user;
-	private ChannelDTO channel;
+	private int userId;
+	private int channelId;
 	private Date subscribeDate;
 }

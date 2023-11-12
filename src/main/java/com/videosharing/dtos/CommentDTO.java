@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class CommentDTO {
 	private Integer id;
-	private VideoDTO video;
-	private UserDTO user;
+	private int videoId;
+	private int userId;
 	private String content;
 	private Date postDate;
 }

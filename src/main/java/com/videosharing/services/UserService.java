@@ -12,4 +12,5 @@ public interface UserService {
     void deleteUser(Integer id);
 	User getFullUserDetails(User targetUser);
 	User getSafeUserDetails(User targetUser);
+	boolean isOwner(Integer userId, Integer targetUserId);
 }

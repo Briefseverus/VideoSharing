@@ -3,7 +3,9 @@ package com.videosharing.services;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.videosharing.dtos.VideoSummaryDTO;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.videosharing.dtos.VideoDTO;
 import com.videosharing.models.Video;
 
 public interface VideoService {
@@ -17,6 +19,7 @@ public interface VideoService {
 	Stream<Video> getVideosByTagsAsStream(Integer tagId);
 	Stream<Video> getVideosByCategoriesAsStream(Integer categoryId);
 	Stream<Video> getVideosByChannelNameAsStream(String channelName);
-	
+	Video uploadVideo(MultipartFile file, VideoDTO videoDTO);
+	boolean isOwner(Integer videoId, Integer userId);
     
 }

@@ -75,36 +75,43 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(Integer id, User user) {
-	    User existingUser = userRepository.findById(id).orElse(null);
+		User existingUser = userRepository.findById(id).orElse(null);
 
-	    if (existingUser != null) {
-	        String newUsername = user.getUsername();
+		if (existingUser != null) {
+			String newUsername = user.getUsername();
 
-	        
-	        if (newUsername != null && userRepository.existsByUsernameAndIdNot(newUsername, id)) {
-	            throw new RuntimeException("Username already exists");
-	        }
+			if (newUsername != null && userRepository.existsByUsernameAndIdNot(newUsername, id)) {
+				throw new RuntimeException("Username already exists");
+			}
 
-	        if (user.getEmail() != null) {
-	            existingUser.setEmail(user.getEmail());
-	        }
+			if (user.getEmail() != null) {
+				existingUser.setEmail(user.getEmail());
+			}
 
-	        if (user.getPassword() != null) {
-	            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-	        }
+			if (user.getPassword() != null) {
+				existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+			}
 
-	        if (newUsername != null) {
-	            existingUser.setUsername(newUsername);
-	        }
+			if (newUsername != null) {
+				existingUser.setUsername(newUsername);
+			}
 
-	        return userRepository.save(existingUser);
-	    } else {
-	        System.out.println("Cannot update user");
-	    }
+			return userRepository.save(existingUser);
+		} else {
+			System.out.println("Cannot update user");
+		}
 
-	    return null;
+		return null;
 	}
 
+	@Override
+	public boolean isOwner(Integer userId, Integer targetUserId) {
+		if (userId.equals(targetUserId)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	@Override
 	public void deleteUser(Integer id) {

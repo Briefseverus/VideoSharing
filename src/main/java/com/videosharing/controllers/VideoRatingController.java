@@ -19,29 +19,32 @@ import com.videosharing.services.VideoRatingService;
 @RestController
 @RequestMapping("/api/video-ratings")
 public class VideoRatingController {
+	
+	@Autowired
+	private VideoRatingMapper videoRatingMapper;
 
 	@Autowired
 	private VideoRatingService videoRatingService;
 
 	@GetMapping("/{id}")
 	public VideoRatingDTO getVideoRatingById(@PathVariable Integer id) {
-		return VideoRatingMapper.toDTO(videoRatingService.getVideoRatingById(id));
+		return videoRatingMapper.toDTO(videoRatingService.getVideoRatingById(id));
 	}
 
 	@GetMapping
 	public List<VideoRatingDTO> getAllVideoRatings() {
-		return VideoRatingMapper.toDTOList(videoRatingService.getAllVideoRatings());
+		return videoRatingMapper.toDTOList(videoRatingService.getAllVideoRatings());
 	}
 
 	@PostMapping
 	public VideoRatingDTO createVideoRating(@RequestBody VideoRatingDTO videoRatingDTO) {
-		return VideoRatingMapper.toDTO(videoRatingService.createVideoRating(VideoRatingMapper.toModel(videoRatingDTO)));
+		return videoRatingMapper.toDTO(videoRatingService.createVideoRating(videoRatingMapper.toModel(videoRatingDTO)));
 	}
 
 	@PutMapping("/{id}")
 	public VideoRatingDTO updateVideoRating(@PathVariable Integer id, @RequestBody VideoRatingDTO videoRatingDTO) {
-		return VideoRatingMapper
-				.toDTO(videoRatingService.updateVideoRating(id, VideoRatingMapper.toModel(videoRatingDTO)));
+		return videoRatingMapper
+				.toDTO(videoRatingService.updateVideoRating(id, videoRatingMapper.toModel(videoRatingDTO)));
 	}
 
 	@DeleteMapping("/{id}")

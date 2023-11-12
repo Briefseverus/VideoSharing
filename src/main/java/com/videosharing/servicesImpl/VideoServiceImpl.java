@@ -1,12 +1,21 @@
 package com.videosharing.servicesImpl;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.videosharing.dtos.VideoDTO;
+import com.videosharing.mappers.VideoMapper;
 import com.videosharing.models.Channel;
 import com.videosharing.models.Video;
 import com.videosharing.repositories.ChannelRepository;
@@ -18,24 +27,26 @@ import com.videosharing.services.VideoTagsMappingService;
 
 @Service
 public class VideoServiceImpl implements VideoService {
-	
 
-	
 	@Autowired
 	private VideoRepository videoRepository;
 
 	@Autowired
-	VideoTagsMappingRepository videoTagsMappingRepository;
+	private VideoTagsMappingRepository videoTagsMappingRepository;
 
 	@Autowired
-	VideoCategoriesService videoCategoriesService;
+	private VideoCategoriesService videoCategoriesService;
 
 	@Autowired
-	VideoTagsMappingService videoTagsMappingService;
+	private VideoTagsMappingService videoTagsMappingService;
 
 	@Autowired
-	ChannelRepository channelRepository;
+	private ChannelRepository channelRepository;
 
+	@Autowired
+	private VideoMapper videoMapper;
+	
+	
 	@Override
 	public Video getVideoById(Integer id) {
 		return videoRepository.findById(id).orElse(null);
@@ -59,12 +70,47 @@ public class VideoServiceImpl implements VideoService {
 			existingVideo.setTitle(video.getTitle());
 			existingVideo.setDescription(video.getDescription());
 			existingVideo.setFilename(video.getFilename());
-			// ...
 			return videoRepository.save(existingVideo);
 		}
 		return null;
 	}
 
+	@Autowired
+	private Bucket storageClient;
+
+	public Video uploadVideo(MultipartFile file, VideoDTO metadata) {
+		String videoName = UUID.randomUUID().toString();
+		Blob blob;
+		try {
+			blob = storageClient.create(videoName, file.getBytes(), file.getContentType());
+			String videoUrl = blob.signUrl(1, TimeUnit.HOURS).toString();
+
+			long duration;
+			try {
+				duration = getVideoDuration(videoUrl);
+				metadata.setVideoUrl(videoUrl);
+				metadata.setDuration(duration);
+				Video video = videoMapper.toModel(metadata);
+				return videoRepository.save(video);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static long getVideoDuration(String videoUrl) throws Exception {
+	    FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoUrl);
+	    grabber.start();
+	    long duration = grabber.getLengthInTime();
+	    grabber.stop();
+	    return duration / 1000;
+	}
 	@Override
 	public void deleteVideo(Integer id) {
 		videoRepository.deleteById(id);
@@ -101,6 +147,16 @@ public class VideoServiceImpl implements VideoService {
 	public Stream<Video> getVideosByChannelNameAsStream(String channelName) {
 		Optional<Channel> channels = channelRepository.findByName(channelName);
 		return channels.stream().flatMap(channel -> videoRepository.findAllByChannelId(channel.getId()).stream());
+	}
+	
+	@Override
+	public boolean isOwner(Integer videoId, Integer userId) {
+	    Video existingVideo = getVideoById(videoId);
+	    if (existingVideo != null) {
+	        Channel channel = existingVideo.getChannel();
+	        return channel != null && channel.getCreator().getId().equals(userId);
+	    }
+	    return false;
 	}
 
 }

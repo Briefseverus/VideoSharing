@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class VideoViewDTO {
 	private Integer id;
-	private VideoDTO video;
+	private int videoId;
 	private String viewerIp;
 	private Date viewDatetime;
 

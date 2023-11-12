@@ -20,13 +20,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
-    }
-
-    @Override
     public Comment createComment(Comment comment) {
         return commentRepository.save(comment);
+    }
+    
+    @Override
+    public List<Comment> getAllCommentByVideoId(Integer videoId) {
+        return commentRepository.findAllByVideoId(videoId);
+    }
+    @Override
+    public List<Comment> getAllCommentByUserId(Integer userId) {
+        return commentRepository.findAllByVideoId(userId);
     }
 
     @Override
@@ -45,4 +49,15 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Integer id) {
         commentRepository.deleteById(id);
     }
+
+    @Override
+    public boolean isOwner(Integer commentId, Integer userId) {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            return comment.getUser().getId().equals(userId);
+        }
+        return false;
+    }
+
+
 }

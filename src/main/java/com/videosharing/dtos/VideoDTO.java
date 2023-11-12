@@ -9,12 +9,12 @@ public class VideoDTO {
 	private Integer id;
 	private String title;
 	private String description;
-	private String videoUrl;
 	private String fileName;
 	private Date uploadDate;
-	private Integer duration;
-	private UserDTO uploader;
-	private ChannelDTO channel;
-	private String firebaseId;
+	private long duration;
+	private int channelId;
+	private String videoUrl;
+	private Integer viewCount;
+	
 
 }

@@ -15,7 +15,9 @@ public interface ChannelService {
 
 	void deleteChannel(Integer id);
 
-	Channel findByCreatorId(Integer id);
+	List<Channel> findByCreatorId(Integer id);
+	
+	public boolean isOwner(Integer channelId, Integer userId);
 
 	
 }

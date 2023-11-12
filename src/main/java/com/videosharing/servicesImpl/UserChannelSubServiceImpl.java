@@ -5,14 +5,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.videosharing.models.Channel;
+import com.videosharing.models.User;
 import com.videosharing.models.UserChannelSub;
 import com.videosharing.repositories.UserChannelSubRepository;
+import com.videosharing.services.ChannelService;
 import com.videosharing.services.UserChannelSubService;
+import com.videosharing.services.UserService;
 
 @Service
 public class UserChannelSubServiceImpl implements UserChannelSubService {
+
 	@Autowired
 	private UserChannelSubRepository userChannelSubRepository;
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	ChannelService channelService;
 
 	@Override
 	public UserChannelSub getUserChannelSubById(Integer id) {
@@ -30,6 +41,24 @@ public class UserChannelSubServiceImpl implements UserChannelSubService {
 	}
 
 	@Override
+	public boolean isSubscribed(Integer userId, Integer channelId) {
+		return userChannelSubRepository.existsByUserIdAndChannelId(userId, channelId);
+	}
+
+	@Override
+	public void subscribeChannel(Integer userId, Integer channelId) {
+		UserChannelSub userChannelSub = new UserChannelSub();
+		userChannelSub.setUser(userService.getUserById(userId));
+		userChannelSub.setChannel(channelService.getChannelById(channelId));
+		userChannelSubRepository.save(userChannelSub);
+	}
+
+	@Override
+	public void unsubscribeChannel(Integer userId, Integer channelId) {
+		userChannelSubRepository.deleteByUserIdAndChannelId(userId, channelId);
+	}
+
+	@Override
 	public UserChannelSub updateUserChannelSub(Integer id, UserChannelSub userChannelSub) {
 		// TODO Auto-generated method stub
 		return null;
@@ -38,8 +67,13 @@ public class UserChannelSubServiceImpl implements UserChannelSubService {
 	@Override
 	public void deleteUserChannelSub(Integer id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	// Cài đặt các phương thức tương tự cho UserChannelSub
+
+	@Override
+	public Integer getTotalSubscriber(Integer channelId) {
+		return userChannelSubRepository.countByAndChannelId(channelId);
+	}
+
 }
