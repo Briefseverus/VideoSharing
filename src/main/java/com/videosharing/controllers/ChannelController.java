@@ -35,16 +35,28 @@ public class ChannelController {
 	
 
 	@GetMapping("/{id}")
-	public ChannelDTO getChannelById(@PathVariable Integer id) {
-		//Chưa implememnt logic kiểm tra owner;
-		//Dự định sẽ implement và trả về cho FE một biến boolean isOwner
-		return channelMapper.toDTO(channelService.getChannelById(id));
+	public ResponseEntity<ChannelDTO> getChannelById(@PathVariable Integer id) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
+	    Integer userId = currentUserDetails.getUser().getId();
+	    boolean isOwner = channelService.isOwner(id, userId);
+	    ChannelDTO channelDTO = channelMapper.toDTO(channelService.getChannelById(id));
+	    channelDTO.setOwner(isOwner);
+	    return ResponseEntity.ok(channelDTO);
 	}
 
-	@GetMapping("/{userId}")
+	@GetMapping("/user/{userId}")
 	public List<ChannelDTO> getAllChannelsByUserId(@PathVariable Integer userId) {
-		return channelMapper.toDTOList(channelService.findByCreatorId(userId));
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
+	    Integer currentUserId = currentUserDetails.getUser().getId();
+	    List<ChannelDTO> channelDTOs = channelMapper.toDTOList(channelService.findByCreatorId(userId));
+	    for (ChannelDTO channelDTO : channelDTOs) {
+	        channelDTO.setOwner(userId.equals(currentUserId));
+	    }
+	    return channelDTOs;
 	}
+
 
 	@PostMapping
 	public ChannelDTO createChannel(@RequestBody ChannelDTO channelDTO) {

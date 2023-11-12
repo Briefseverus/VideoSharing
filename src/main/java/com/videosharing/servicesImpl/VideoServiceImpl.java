@@ -83,7 +83,7 @@ public class VideoServiceImpl implements VideoService {
 		Blob blob;
 		try {
 			blob = storageClient.create(videoName, file.getBytes(), file.getContentType());
-			String videoUrl = blob.signUrl(1, TimeUnit.HOURS).toString();
+			String videoUrl = blob.signUrl(365, TimeUnit.DAYS).toString();
 
 			long duration;
 			try {

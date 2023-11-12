@@ -16,12 +16,4 @@ public class WelcomeController {
 		return "home";
 	}
 	
-	@GetMapping("/user")
-	  public User getCurrentUser(Authentication authentication) {
-	    
-	    User user = (User) authentication.getPrincipal();
-	    
-	    return user;
-	    
-	  }
 }

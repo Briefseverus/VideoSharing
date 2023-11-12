@@ -12,5 +12,6 @@ public class ChannelDTO {
 	private Date createDate;
 	private int creatorId;
 	private int subcribers;
+	private boolean isOwner;
 	
 }

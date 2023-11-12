@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.videosharing.dtos.ChannelDTO;
 import com.videosharing.models.Channel;
+import com.videosharing.services.UserChannelSubService;
 import com.videosharing.services.UserService;
 
 @Component
@@ -15,6 +16,9 @@ public class ChannelMapper {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserChannelSubService userChannelSubService;
 
 
 	public  ChannelDTO toDTO(Channel model) {
@@ -25,8 +29,8 @@ public class ChannelMapper {
 		dto.setCreateDate(model.getCreateDate());
 		dto.setDescription(model.getDescription());
 		dto.setCreatorId(model.getCreator().getId());
-		dto.setSubcribers(0);
-
+		dto.setSubcribers(userChannelSubService.getTotalSubscriber(model.getId()));
+		
 		return dto;
 	}
 
