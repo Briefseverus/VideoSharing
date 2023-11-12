@@ -47,10 +47,11 @@ public class UserController {
 
 		if (userService.isOwner(targetUser.getId(), currentUser.getId())) {
 			UserDTO userDTO = userMapper.toDTO(userService.getFullUserDetails(targetUser));
-
+			userDTO.setOwner(true);
 			return ResponseEntity.ok(userDTO);
 		} else {
 			UserDTO userDTO = userMapper.toDTO(userService.getSafeUserDetails(targetUser));
+			userDTO.setOwner(false);
 			return ResponseEntity.ok(userDTO);
 		}
 	}

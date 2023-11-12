@@ -13,4 +13,5 @@ public class UserDTO {
 	private Date joinDate;
 	private boolean enabled;
 	private String role;
+	private boolean isOwner;
 }

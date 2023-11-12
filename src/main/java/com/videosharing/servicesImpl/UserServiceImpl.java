@@ -130,4 +130,11 @@ public class UserServiceImpl implements UserService {
 		temp.setUsername(user.getUsername());
 		return temp;
 	}
+
+	@Override
+	public int getIdUserByUsername(String username) {
+
+		return userRepository.findByUsername(username).get().getId();
+
+	}
 }

@@ -13,4 +13,5 @@ public interface UserService {
 	User getFullUserDetails(User targetUser);
 	User getSafeUserDetails(User targetUser);
 	boolean isOwner(Integer userId, Integer targetUserId);
+	int getIdUserByUsername(String username);
 }

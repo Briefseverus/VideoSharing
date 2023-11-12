@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	boolean existsByUsernameAndIdNot(String newUsername, Integer id);
 
+	
+
 
 	
 }

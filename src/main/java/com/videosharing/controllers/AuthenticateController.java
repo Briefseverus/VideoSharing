@@ -52,6 +52,8 @@ public class AuthenticateController {
 	        if (authentication.isAuthenticated()) {
 	            RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequest.getUsername());
 	            return JwtResponse.builder()
+	            		.username(authRequest.getUsername())
+	            		.userId(userService.getIdUserByUsername(authRequest.getUsername()))
 	                    .accessToken(jwtService.generateToken(authRequest.getUsername()))
 	                    .token(refreshToken.getToken()).build();
 	        } else {
