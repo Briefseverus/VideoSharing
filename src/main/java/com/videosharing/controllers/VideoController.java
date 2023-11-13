@@ -77,6 +77,14 @@ public class VideoController {
 		return videoMapper.toDTO(videoService.getVideoById(id), videoViewService);
 	}
 
+	@GetMapping("/similar/{id}")
+	public List<VideoSummaryDTO> getSimilarVideos(@PathVariable Integer id) {
+	    Stream<Video> similarVideosStream = videoService.getSimilarVideos(id);
+	    List<VideoSummaryDTO> videoSummaryDTOs = similarVideosStream
+	            .map(video -> videoMapper.toSummaryDTO(video, videoViewService)).collect(Collectors.toList());
+	    return videoSummaryDTOs;
+	}
+
 	@GetMapping
 	public List<VideoSummaryDTO> getAllVideos() {
 		return videoMapper.toSummaryDTOList(videoService.getAllVideos(), videoViewService);
@@ -97,6 +105,7 @@ public class VideoController {
 				.map(video -> videoMapper.toSummaryDTO(video, videoViewService)).collect(Collectors.toList());
 		return videoSummaryDTOs;
 	}
+
 
 	@GetMapping("/titles/{title}")
 	public List<VideoSummaryDTO> getVideosByTitles(@PathVariable String title) {

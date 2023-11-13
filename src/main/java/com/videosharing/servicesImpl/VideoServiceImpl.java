@@ -21,6 +21,7 @@ import com.videosharing.models.Video;
 import com.videosharing.repositories.ChannelRepository;
 import com.videosharing.repositories.VideoRepository;
 import com.videosharing.repositories.VideoTagsMappingRepository;
+import com.videosharing.services.ChannelService;
 import com.videosharing.services.VideoCategoriesService;
 import com.videosharing.services.VideoService;
 import com.videosharing.services.VideoTagsMappingService;
@@ -30,6 +31,9 @@ public class VideoServiceImpl implements VideoService {
 
 	@Autowired
 	private VideoRepository videoRepository;
+	
+	@Autowired
+	private ChannelService channelService;
 
 	@Autowired
 	private VideoTagsMappingRepository videoTagsMappingRepository;
@@ -45,8 +49,7 @@ public class VideoServiceImpl implements VideoService {
 
 	@Autowired
 	private VideoMapper videoMapper;
-	
-	
+
 	@Override
 	public Video getVideoById(Integer id) {
 		return videoRepository.findById(id).orElse(null);
@@ -97,7 +100,7 @@ public class VideoServiceImpl implements VideoService {
 				e.printStackTrace();
 			}
 			return null;
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -105,26 +108,43 @@ public class VideoServiceImpl implements VideoService {
 	}
 
 	public static long getVideoDuration(String videoUrl) throws Exception {
-	    FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoUrl);
-	    grabber.start();
-	    long duration = grabber.getLengthInTime();
-	    grabber.stop();
-	    return duration / 1000;
+		FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoUrl);
+		grabber.start();
+		long duration = grabber.getLengthInTime();
+		grabber.stop();
+		return duration / 1000;
 	}
+
 	@Override
 	public void deleteVideo(Integer id) {
 		videoRepository.deleteById(id);
 	}
 
+	@Override
 	public Stream<Video> getVideosByCategoriesAsStream(Integer categoryId) {
 		return videoCategoriesService.getAllVideoCategories().stream()
 				.filter(videoCategory -> videoCategory.getId().equals(categoryId))
 				.flatMap(videoCategory -> videoCategory.getVideos().stream());
 	}
 
+	@Override
+	public Stream<Video> getVideosByCategoriesAsStream(List<Integer> categoryIds) {
+		return videoCategoriesService.getAllVideoCategories().stream()
+				.filter(videoCategory -> categoryIds.contains(videoCategory.getId()))
+				.flatMap(videoCategory -> videoCategory.getVideos().stream());
+	}
+
+	@Override
 	public Stream<Video> getVideosByTagsAsStream(Integer tagId) {
 		return videoTagsMappingService.getAllVideoTagsMappings().stream()
 				.filter(videoTagsMapping -> videoTagsMapping.getTag().getId().equals(tagId))
+				.map(videoTagsMapping -> videoTagsMapping.getVideo());
+	}
+
+	@Override
+	public Stream<Video> getVideosByTagsAsStream(List<Integer> tagIds) {
+		return videoTagsMappingService.getAllVideoTagsMappings().stream()
+				.filter(videoTagsMapping -> tagIds.contains(videoTagsMapping.getTag().getId()))
 				.map(videoTagsMapping -> videoTagsMapping.getVideo());
 	}
 
@@ -150,13 +170,39 @@ public class VideoServiceImpl implements VideoService {
 	}
 	
 	@Override
+	public Stream<Video> getSimilarVideos(Integer videoId) {
+	    List<Integer> tagIds = videoTagsMappingService.getTagIdbyVideoId(videoId);
+	    List<Integer> categoryIds = videoCategoriesService.getCategoriesIdByVideoId(videoId);
+	    Integer channelId = channelService.getChannelIdByVideoId(videoId);
+	    Stream<Video> similarVideosByTagsStream = getVideosByTagsAsStream(tagIds);
+	    Stream<Video> similarVideosByCategoriesStream = getVideosByCategoriesAsStream(categoryIds);
+	    Stream<Video> similarVideosByChannelStream = getVideosByChannelAsStream(channelId);
+	    Stream<Video> similarVideosByTitleStream = getVideosByTitleAsStream(getVideoById(videoId).getTitle());
+
+	   
+	    Stream<Video> similarVideosStream = Stream.concat(
+	            similarVideosByTagsStream,
+	            Stream.concat(similarVideosByCategoriesStream,
+	                    Stream.concat(similarVideosByChannelStream, similarVideosByTitleStream))
+	    );
+
+	    similarVideosStream = similarVideosStream
+	            .filter(video -> !video.getId().equals(videoId)) 
+	            .distinct() 
+	            .limit(30); // Giới hạn số lượng video trả về 
+
+	    return similarVideosStream;
+	}
+
+
+	@Override
 	public boolean isOwner(Integer videoId, Integer userId) {
-	    Video existingVideo = getVideoById(videoId);
-	    if (existingVideo != null) {
-	        Channel channel = existingVideo.getChannel();
-	        return channel != null && channel.getCreator().getId().equals(userId);
-	    }
-	    return false;
+		Video existingVideo = getVideoById(videoId);
+		if (existingVideo != null) {
+			Channel channel = existingVideo.getChannel();
+			return channel != null && channel.getCreator().getId().equals(userId);
+		}
+		return false;
 	}
 
 }

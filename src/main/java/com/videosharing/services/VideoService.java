@@ -21,5 +21,8 @@ public interface VideoService {
 	Stream<Video> getVideosByChannelNameAsStream(String channelName);
 	Video uploadVideo(MultipartFile file, VideoDTO videoDTO);
 	boolean isOwner(Integer videoId, Integer userId);
+	Stream<Video> getVideosByCategoriesAsStream(List<Integer> categoryIds);
+	Stream<Video> getVideosByTagsAsStream(List<Integer> tagIds);
+	Stream<Video> getSimilarVideos(Integer videoId);
     
 }

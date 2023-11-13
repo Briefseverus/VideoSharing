@@ -1,4 +1,5 @@
 package com.videosharing.servicesImpl;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,14 @@ public class VideoTagsMappingServiceImpl implements VideoTagsMappingService {
 		
 	}
 
+	@Override
+	public List<Integer> getTagIdbyVideoId(Integer videoId) {
+	    List<VideoTagsMapping> videoTagsMappings = videoTagsMappingRepository.findByVideoId(videoId);
+	    List<Integer> tagIds = new ArrayList<>();
+	    for (VideoTagsMapping videoTagsMapping : videoTagsMappings) {
+	        tagIds.add(videoTagsMapping.getTag().getId());
+	    }
+	    return tagIds;
+	}
 
-    // Cài đặt các phương thức tương tự cho VideoTagsMapping
 }

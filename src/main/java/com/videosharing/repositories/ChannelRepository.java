@@ -13,4 +13,5 @@ public interface ChannelRepository extends JpaRepository<Channel, Integer> {
 
 	Optional<Channel> findByName(String channelName);
 	List<Channel> findByCreatorId(Integer creatorId);
+	
 }

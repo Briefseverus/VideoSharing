@@ -19,5 +19,7 @@ public interface ChannelService {
 	
 	public boolean isOwner(Integer channelId, Integer userId);
 
+	int getChannelIdByVideoId(Integer videoId);
+
 	
 }

@@ -1,0 +1,792 @@
+{
+	"info": {
+		"_postman_id": "5ba4eb41-66a7-44dc-8b2d-e9ff41c1b0c8",
+		"name": "VideoSharing-SpringApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17918363",
+		"_collection_link": "https://briefseverus.postman.co/workspace/New-Team-Workspace~14dfb7d9-878a-4717-bf11-921f33d994e6/collection/17918363-5ba4eb41-66a7-44dc-8b2d-e9ff41c1b0c8?action=share&source=collection_link&creator=17918363"
+	},
+	"item": [
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "Authenticate",
+					"item": [
+						{
+							"name": "Signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"username\":\"user11211\",\r\n\"password\":\"user11211\",\r\n\"email\":\"username@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/login/sign-up",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login",
+										"sign-up"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"1\",\r\n    \"password\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RefreshToken",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get user by userId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users/15",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"15"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmhxdWFuIiwiaWF0IjoxNjk4Mzg3MDcwLCJleHAiOjE2OTgzOTA2NzB9.ZdAQPvOCVv66cZ5SC-SQhxNWa8-ywOth4tTrEZ9eg0E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"username\":\"userupdated\",\r\n\"password\":\"anhquan1\",\r\n\"email\":\"update@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/15",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"15"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "Get category by categoryId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/categories/{id}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"categories",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTExMTExMSIsImlhdCI6MTY5ODM4MzUyNSwiZXhwIjoxNjk4Mzg3MTI1fQ.JOH8RbrnHOdtkOvS10jpghR28Vi30SIGUW4lUfSpKaA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic base64encoded(admin:admin)",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set categories for video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk5Nzg3MzgwLCJleHAiOjE2OTk3OTA5ODB9.Xwj1Mn_5BEYNHg8eovNaqfMdKA96m-PjGme74S9dcBM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"videoId\":\"18\",\r\n\"categoriesId\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/video-categories-mapping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"video-categories-mapping"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tag",
+					"item": [
+						{
+							"name": "Get Tag by tagId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/video-tags/{id}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"video-tags",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all Tag",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/video-tags",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"video-tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set Tag for video",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Channel",
+					"item": [
+						{
+							"name": "Lấy thông tin channel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTExMTExMSIsImlhdCI6MTY5ODM4NDE2NiwiZXhwIjoxNjk4Mzg3NzY2fQ.nHwDJ_SeAW3AqkQq19j9TbZCuWeSZ-OYiWAg7ROxjwE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/channels/12",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"channels",
+										"12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tạo mới 1 channel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTExMjEiLCJpYXQiOjE2OTgxMzE4NTUsImV4cCI6MTY5ODEzNTQ1NX0.pA4B_2QGUkd4tKdcQeoNPCM0AyJEUOdu2ewdsQbOU1w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Channel x\",\r\n    \"description\": \"Channel x\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/channels",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"channels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update 1 channel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTExMjEiLCJpYXQiOjE2OTgxMzE4NTUsImV4cCI6MTY5ODEzNTQ1NX0.pA4B_2QGUkd4tKdcQeoNPCM0AyJEUOdu2ewdsQbOU1w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Update\",\r\n    \"description\": \"Update\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/channels/14",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"channels",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete 1 channel",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Lấy list channel của user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk5ODQyNDI5LCJleHAiOjE2OTk4NDYwMjl9.FqFqgmp5IDf-Lll8v7LwUaqW1jdO3Wd69AZloxpZ8gc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/channels/users/21",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"channels",
+										"users",
+										"21"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Video",
+					"item": [
+						{
+							"name": "Get similar video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk5ODQyNDI5LCJleHAiOjE2OTk4NDYwMjl9.FqFqgmp5IDf-Lll8v7LwUaqW1jdO3Wd69AZloxpZ8gc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/videos/similar/18",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"videos",
+										"similar",
+										"18"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmJxdWVhbjc3MjEiLCJpYXQiOjE2OTk2NzIyMDAsImV4cCI6MTY5OTY3NTgwMH0.JhU8FMXi2NubGiZrw2DwPHYekC8kGLF2nbc9r1KE648",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/videos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"videos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get video by id",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Get all video of channel by channel id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmJxdWVhbjc3MSIsImlhdCI6MTY5ODY3MDczMCwiZXhwIjoxNjk4Njc0MzMwfQ.zTFjxxdTg88sFIVvYz2rTQXHWw_eySUX3BCm_tKqWvY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/videos/channels/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"videos",
+										"channels",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all video by title",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Get all video by categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/videos/categories/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"videos",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all video by tag",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/videos/tags/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"videos",
+										"tags",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload video",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjk5Nzg2ODkyLCJleHAiOjE2OTk3OTA0OTJ9.7WcP5CpM-ARVxAtD6XK6ItFWLLvzjDRIS9Oj4VVotTY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "videoDTO",
+											"value": "{\"title\":\"test 1\",\n\"description\":\"test 1\",\n\"fileName\":\"test 1\",\n\"channelId\":\"21\"}",
+											"contentType": "",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"contentType": "",
+											"type": "file",
+											"src": "/D:/KTGK_LeCanhHoang_52287[Cau 1].mp4"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/videos/upload",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"videos",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "VideoView",
+					"item": [
+						{
+							"name": "Create a video view",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmJxdWFuNzcxIiwiaWF0IjoxNjk4NDM3MTIzLCJleHAiOjE2OTg0NDA3MjN9.StgZiZTv-M4EHWAgYWorfGkKVM4q0ag3b1U-ZaLj0h0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/video-views/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"video-views",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get total view of video",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ChannelSubcribe",
+					"item": []
+				},
+				{
+					"name": "Comment",
+					"item": []
+				},
+				{
+					"name": "VideoRating",
+					"item": []
+				}
+			],
+			"description": "Request for User"
+		},
+		{
+			"name": "ADMIN",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/admin/users/26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"users",
+								"26"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Request for Administrator"
+		},
+		{
+			"name": "Welcome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/welcome",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"welcome"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

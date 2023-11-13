@@ -14,4 +14,6 @@ public interface VideoTagsMappingRepository extends JpaRepository<VideoTagsMappi
 	Optional<VideoTagsMapping> findByTagId(Integer tagId);
 
 	List<VideoTagsMapping> findAllByVideoId(Integer videoId);
+
+	List<VideoTagsMapping> findByVideoId(Integer videoId);
 }

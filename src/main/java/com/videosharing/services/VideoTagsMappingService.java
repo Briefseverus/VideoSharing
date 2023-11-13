@@ -10,5 +10,6 @@ public interface VideoTagsMappingService {
     VideoTagsMapping createVideoTagsMapping(VideoTagsMapping videoTagsMapping);
 	VideoTagsMapping updateVideoTagsMapping(Integer id, VideoTagsMapping videoTagsMapping);
 	void deleteVideoTagsMapping(Integer id);
+	List<Integer> getTagIdbyVideoId(Integer videoId);
 	
 }

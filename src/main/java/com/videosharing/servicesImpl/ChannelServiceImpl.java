@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.videosharing.models.Channel;
 import com.videosharing.repositories.ChannelRepository;
+import com.videosharing.repositories.VideoRepository;
 import com.videosharing.services.ChannelService;
 
 @Service
@@ -14,6 +15,10 @@ public class ChannelServiceImpl implements ChannelService {
 	@Autowired
 	private ChannelRepository channelRepository;
 
+	
+	@Autowired
+	private VideoRepository videoRepository;
+	
 	@Override
 	public Channel getChannelById(Integer id) {
 		return channelRepository.findById(id).orElse(null);
@@ -46,8 +51,13 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public List<Channel> findByCreatorId(Integer id) {
-		 return channelRepository.findByCreatorId(id);
+	public List<Channel> findByCreatorId(Integer userid) {
+		 return channelRepository.findByCreatorId(userid);
+	}
+	
+	@Override
+	public int getChannelIdByVideoId(Integer videoId) {
+		 return videoRepository.findById(videoId).get().getChannel().getId();
 	}
 	@Override
 	public boolean isOwner(Integer channelId, Integer userId) {
