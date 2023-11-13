@@ -14,6 +14,8 @@ import com.videosharing.configs.CustomUserDetails;
 import com.videosharing.mappers.UserChannelSubMapper;
 import com.videosharing.services.UserChannelSubService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/user-channel-subs")
 public class UserChannelSubController {
@@ -43,6 +45,7 @@ public class UserChannelSubController {
     }
 
     @DeleteMapping("/unsubscribe/{channelId}")
+    @Transactional
     public void unsubscribeChannel(@PathVariable Integer channelId) {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();

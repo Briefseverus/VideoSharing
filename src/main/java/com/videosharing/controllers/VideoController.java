@@ -26,8 +26,11 @@ import com.videosharing.dtos.VideoDTO;
 import com.videosharing.dtos.VideoSummaryDTO;
 import com.videosharing.mappers.ChannelMapper;
 import com.videosharing.mappers.VideoMapper;
+import com.videosharing.models.Channel;
+import com.videosharing.models.User;
 import com.videosharing.models.Video;
 import com.videosharing.services.ChannelService;
+import com.videosharing.services.VideoRatingService;
 import com.videosharing.services.VideoService;
 import com.videosharing.services.VideoViewService;
 
@@ -41,24 +44,36 @@ public class VideoController {
 	private VideoService videoService;
 
 	@Autowired
+	VideoRatingService videoRatingService;
+
+	@Autowired
 	private VideoMapper videoMapper;
-	
+
 	@Autowired
 	private ChannelService channelServices;
 
 	@Autowired
-	private	ChannelMapper channelMapper;
-	
+	private ChannelMapper channelMapper;
+
 	@Autowired
 	private VideoViewService videoViewService;
 
-	@PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<String> uploadVideo(@RequestPart("file") MultipartFile file,
 			@RequestPart("videoDTO") VideoDTO videoDTO) throws IOException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		User currentUser = currentUserDetails.getUser();
 		Integer currentUserId = currentUserDetails.getUser().getId();
+		Channel channel = channelServices.getChannelById(videoDTO.getChannelId());
 		if (channelServices.isOwner(videoDTO.getChannelId(), currentUserId)) {
+
+			if (!currentUser.isVip()) {
+				if (channel.getVideos().size() >= 4) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+							"Bạn đã đạt đến giới hạn tải lên video cho channel này. Vui lòng mua VIP nếu muốn tải lên nhiều hơn video");
+				}
+			}
 			Video updatedMetadata = videoService.uploadVideo(file, videoDTO);
 
 			if (updatedMetadata != null) {
@@ -67,22 +82,22 @@ public class VideoController {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload video");
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bạn không có quyền tải video lên channel này.");
 		}
 
 	}
 
 	@GetMapping("/{id}")
 	public VideoDTO getVideoById(@PathVariable Integer id) {
-		return videoMapper.toDTO(videoService.getVideoById(id), videoViewService);
+		return videoMapper.toDTO(videoService.getVideoById(id), videoViewService, videoRatingService);
 	}
 
 	@GetMapping("/similar/{id}")
 	public List<VideoSummaryDTO> getSimilarVideos(@PathVariable Integer id) {
-	    Stream<Video> similarVideosStream = videoService.getSimilarVideos(id);
-	    List<VideoSummaryDTO> videoSummaryDTOs = similarVideosStream
-	            .map(video -> videoMapper.toSummaryDTO(video, videoViewService)).collect(Collectors.toList());
-	    return videoSummaryDTOs;
+		Stream<Video> similarVideosStream = videoService.getSimilarVideos(id);
+		List<VideoSummaryDTO> videoSummaryDTOs = similarVideosStream
+				.map(video -> videoMapper.toSummaryDTO(video, videoViewService)).collect(Collectors.toList());
+		return videoSummaryDTOs;
 	}
 
 	@GetMapping
@@ -105,7 +120,6 @@ public class VideoController {
 				.map(video -> videoMapper.toSummaryDTO(video, videoViewService)).collect(Collectors.toList());
 		return videoSummaryDTOs;
 	}
-
 
 	@GetMapping("/titles/{title}")
 	public List<VideoSummaryDTO> getVideosByTitles(@PathVariable String title) {
@@ -132,7 +146,7 @@ public class VideoController {
 		if (videoService.isOwner(id, currentUserId)) {
 
 			Video updatedVideo = videoService.updateVideo(id, videoMapper.toModel(videoDTO));
-			VideoDTO updatedVideoDTO = videoMapper.toDTO(updatedVideo, videoViewService);
+			VideoDTO updatedVideoDTO = videoMapper.toDTO(updatedVideo, videoViewService, videoRatingService);
 			return ResponseEntity.ok(updatedVideoDTO);
 		} else {
 

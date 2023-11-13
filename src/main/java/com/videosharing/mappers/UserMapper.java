@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.videosharing.dtos.UserBasicInfor;
 import com.videosharing.dtos.UserDTO;
 import com.videosharing.models.User;
 
@@ -20,9 +21,20 @@ public class UserMapper {
 		dto.setJoinDate(model.getJoinDate());
 		dto.setRole(model.getRole());
 		dto.setEnabled(model.isEnabled());
+		dto.setVip(model.isVip());
 		return dto;
 	}
-
+	public UserBasicInfor toBasicDTO(User model) {
+		UserBasicInfor dto = new UserBasicInfor();
+		
+		dto.setUsername(model.getUsername());
+		dto.setEmail(model.getEmail());
+		dto.setJoinDate(model.getJoinDate());
+	
+	
+		return dto;
+	}
+	
 	public  List<UserDTO> toDTOList(List<User> models) {
 		return models.stream().map(cat -> toDTO(cat)).collect(Collectors.toList());
 	}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.videosharing.dtos.AuthRequest;
 import com.videosharing.dtos.JwtResponse;
 import com.videosharing.dtos.RefreshTokenRequest;
+import com.videosharing.dtos.UserBasicInfor;
 import com.videosharing.dtos.UserDTO;
 import com.videosharing.jwt.JwtService;
 import com.videosharing.jwt.RefreshTokenService;
@@ -22,6 +23,7 @@ import com.videosharing.mappers.UserMapper;
 import com.videosharing.models.RefreshToken;
 import com.videosharing.models.User;
 import com.videosharing.services.UserService;
+import com.videosharing.servicesImpl.EmailService;
 
 @RestController
 @RequestMapping("/login")
@@ -40,6 +42,9 @@ public class AuthenticateController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired 
+	private EmailService emailService;
 
 	@GetMapping
 	public String login() {
@@ -60,24 +65,28 @@ public class AuthenticateController {
 	            throw new UsernameNotFoundException("invalid user request !");
 	        }
 	    }
-	@PostMapping("/sign-up")
-	public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+	 @PostMapping("/sign-up")
+	 public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
 
-		try {
+	     try {
 
-			User user = userMapper.toModel(userDTO);
-			userService.createUser(user);
+	         User user = userMapper.toModel(userDTO);
+	         userService.createUser(user);
 
-			UserDTO createdUser = userMapper.toDTO(user);
-			return ResponseEntity.ok(createdUser);
+	        
+	         UserBasicInfor createdUser = userMapper.toBasicDTO(user);
 
-		} catch (RuntimeException e) {
+	         emailService.sendEmailForAccountCreated(user);
 
-			return ResponseEntity.badRequest().body(e.getMessage());
+	         return ResponseEntity.ok(createdUser);
 
-		}
+	     } catch (RuntimeException e) {
 
-	}
+	         return ResponseEntity.badRequest().body(e.getMessage());
+
+	     }
+
+	 }
 
 	@PostMapping("/refreshToken")
 	public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {

@@ -9,7 +9,7 @@ public interface VideoRatingService {
 
 	List<VideoRating> getAllVideoRatings();
 
-	VideoRating createVideoRating(VideoRating videoRating);
+	VideoRating createVideoRating(VideoRating videoRating) throws Exception;
 
 	VideoRating updateVideoRating(Integer id, VideoRating videoRating);
 	
@@ -22,4 +22,6 @@ public interface VideoRatingService {
 	void deleteVideoRating(Integer userId, Integer videoId);
 
 	Integer getRatingByUserIdAndVideoId(Integer userId, Integer videoId);
+
+	boolean isOwner(Integer userId, Integer ratingId);
 }

@@ -12,6 +12,7 @@ import com.videosharing.dtos.VideoSummaryDTO;
 import com.videosharing.models.Channel;
 import com.videosharing.models.Video;
 import com.videosharing.services.ChannelService;
+import com.videosharing.services.VideoRatingService;
 import com.videosharing.services.VideoViewService;
 
 @Component
@@ -20,9 +21,10 @@ public class VideoMapper {
 	@Autowired
 	private ChannelService channelService;
 
-	public VideoDTO toDTO(Video model, VideoViewService videoViewService) {
+	public VideoDTO toDTO(Video model, VideoViewService videoViewService, VideoRatingService videoRatingService) {
 
 		Integer viewCount = videoViewService.getTotalViewsForVideo(model.getId());
+		Integer rating = videoRatingService.getAverageRatingByVideoId(model.getId());
 		VideoDTO dto = new VideoDTO();
 		dto.setId(model.getId());
 		dto.setTitle(model.getTitle());
@@ -33,6 +35,7 @@ public class VideoMapper {
 		dto.setVideoUrl(model.getVideoUrl());
 		dto.setChannelId(model.getChannel().getId());
 		dto.setViewCount(viewCount);
+		dto.setRating(rating);
 		return dto;
 	}
 
@@ -51,8 +54,10 @@ public class VideoMapper {
 		return dto;
 	}
 
-	public List<VideoDTO> toDTOList(List<Video> models, VideoViewService videoViewService) {
-		return models.stream().map(video -> toDTO(video, videoViewService)).collect(Collectors.toList());
+	public List<VideoDTO> toDTOList(List<Video> models, VideoViewService videoViewService,
+			VideoRatingService videoRatingService) {
+		return models.stream().map(video -> toDTO(video, videoViewService, videoRatingService))
+				.collect(Collectors.toList());
 	}
 
 	public Video toModel(VideoDTO dto) {

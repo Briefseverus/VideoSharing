@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 12, 2023 at 08:51 AM
+-- Generation Time: Nov 13, 2023 at 07:06 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -68,7 +68,16 @@ INSERT INTO `channels` (`channel_id`, `name`, `description`, `creator_id`, `crea
 (16, 'Update', 'Update', 11, '2023-10-27 05:04:29'),
 (17, 'Update', 'Update', 20, '2023-11-07 10:28:26'),
 (18, 'Channel x22', 'Channel x', 20, '2023-11-11 15:27:42'),
-(19, 'Update', 'Update', 20, '2023-11-12 07:28:37');
+(19, 'Update', 'Update', 20, '2023-11-12 07:28:37'),
+(20, 'Channel x', 'Channel x', 21, '2023-11-12 11:10:16'),
+(23, 'Channel x', 'Channel x', 21, '2023-11-13 18:35:13'),
+(24, 'Channel x', 'Channel x', 21, '2023-11-13 18:37:13'),
+(25, 'Channel x', 'Channel x', 21, '2023-11-13 18:37:16'),
+(26, 'Channel x', 'Channel x', 21, '2023-11-13 18:37:17'),
+(27, 'Channel x', 'Channel x', 21, '2023-11-13 18:37:18'),
+(28, 'Channel x', 'Channel x', 21, '2023-11-13 18:37:19'),
+(29, 'Channel x', 'Channel x', 23, '2023-11-13 18:42:16'),
+(30, 'Channel x', 'Channel x', 23, '2023-11-13 18:42:33');
 
 -- --------------------------------------------------------
 
@@ -89,9 +98,7 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`comment_id`, `video_id`, `user_id`, `content`, `post_date`) VALUES
-(4, 4, 4, 'Comment 1', '2023-01-16 00:00:00.000000'),
-(5, 5, 5, 'Comment 2', '2023-02-25 00:00:00.000000'),
-(6, 6, 6, 'Comment 3', '2023-03-15 00:00:00.000000');
+(8, 18, 21, 'update', '2023-11-13 10:13:40.059000');
 
 -- --------------------------------------------------------
 
@@ -138,31 +145,38 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `role` varchar(50) NOT NULL,
   `enabled` bit(1) NOT NULL DEFAULT b'1',
-  `join_date` datetime(6) DEFAULT NULL
+  `join_date` datetime(6) DEFAULT NULL,
+  `is_vip` bit(1) DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `role`, `enabled`, `join_date`) VALUES
-(4, 'user1', 'password1', 'user1@example.com', 'ADMIN', b'1', '2023-01-01 00:00:00.000000'),
-(5, 'user2', 'password2', 'user2@example.com', 'USER', b'1', '2023-02-01 00:00:00.000000'),
-(6, 'user3', 'password3', 'user3@example.com', 'USER', b'1', '2023-03-01 00:00:00.000000'),
-(7, 'username11', '$2a$10$wQHHNI392AYIaJAl/5bYrOU88G.0xpDveTJ4zvd7QhmOhBKfRZyAy', 'username@gmail.com', 'ROLE_null', b'0', NULL),
-(8, 'username111', '$2a$10$NXd2TaW1RTncWK6S/f.V4OXQfmVeDTsglTvTuewlLJsn/PA3KII0a', 'username@gmail.com', 'USER', b'0', '2023-10-23 18:20:33.020000'),
-(9, 'username1111', '$2a$10$MYcm.2lyOMRUn0TZLoUcd..faatWXjJmwYz9D86UCNwho2B64d/gy', 'username@gmail.com', 'USER', b'1', '2023-10-23 18:23:21.048000'),
-(10, 'username11111', '$2a$10$OureWF1P.8BeXXFmu8DuWe.CnLpz/d3qtdKGISzmcnj.Cw4jCLrEe', 'username@gmail.com', 'USER', b'1', '2023-10-23 18:34:08.421000'),
-(11, 'update', 'update', 'update@gmail.com', 'USER', b'1', '2023-10-23 18:38:15.991000'),
-(12, 'username1121', '$2a$10$Vif.pfydMQXZ.B6ZFSGNMeEus2DkNP9CpPgneAnHRcOtro940CgW.', 'username@gmail.com', 'USER', b'1', '2023-10-23 20:29:00.247000'),
-(13, 'username11211', '$2a$10$MqGkJBZ7VbSHnv8DM0QZ/uRMls2CvSC5LuIh6.IdUIyUdt/0.FvBu', 'username@gmail.com', 'USER', b'1', '2023-10-25 04:34:09.984000'),
-(14, 'update', '$2a$10$St0bIu2rw1SLEnRvdQhAIu18JjBEm.cMmSqbf0eOoI9fhfQaMZJTG', 'update@gmail.com', 'USER', b'1', '2023-10-27 06:06:16.676000'),
-(15, 'userupdated', '$2a$10$pVdnTRejfp43X4tWLOsr9OrHXrY4pavm05ScwHzdeEMW9T/taujUG', 'update@gmail.com', 'USER', b'1', '2023-10-27 06:10:59.312000'),
-(16, 'qssss', '$2a$10$O0Kii9lHiibEmHCMsCwv9.ZeApqG.OTak1IZlXuur7InYe7/M5v2S', 'username@gmail.com', 'USER', b'1', '2023-10-27 10:08:33.756000'),
-(17, 'anbquan1', '$2a$10$rrF6h3FYxZPGoumAp1SbPOb20s9WSMD7mUnqagPFs7eg05vFz.ZH.', 'username@gmail.com', 'USER', b'1', '2023-10-27 10:09:54.854000'),
-(18, 'anbquan771', '$2a$10$YEh9dJcW1EXaViHQU9XioOX3J4InM0zdFhZQE5IUByStu6HRjcJ72', 'username@gmail.com', 'USER', b'1', '2023-10-27 10:15:09.021000'),
-(19, 'userupdatd', '$2a$10$.ZdiTYWOyNKXcLBuRZJ/Zu2U3wBZnqg6E7C5Dd6PYVjnI108LrssO', 'update@gmail.com', 'USER', b'1', '2023-10-27 23:09:14.757000'),
-(20, 'anbquean7721', '$2a$10$08G5vUhvr8mIU15.M31jdeQyoHBjBNqvYkDOD.27ycnKsv.hlIzV.', 'username@gmail.com', 'USER', b'1', '2023-11-07 10:20:15.775000');
+INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `role`, `enabled`, `join_date`, `is_vip`) VALUES
+(4, 'user1', 'password1', 'user1@example.com', 'ADMIN', b'1', '2023-01-01 00:00:00.000000', NULL),
+(5, 'user2', 'password2', 'user2@example.com', 'USER', b'1', '2023-02-01 00:00:00.000000', NULL),
+(6, 'user3', 'password3', 'user3@example.com', 'USER', b'1', '2023-03-01 00:00:00.000000', NULL),
+(7, 'username11', '$2a$10$wQHHNI392AYIaJAl/5bYrOU88G.0xpDveTJ4zvd7QhmOhBKfRZyAy', 'username@gmail.com', 'ROLE_null', b'0', NULL, NULL),
+(8, 'username111', '$2a$10$NXd2TaW1RTncWK6S/f.V4OXQfmVeDTsglTvTuewlLJsn/PA3KII0a', 'username@gmail.com', 'USER', b'0', '2023-10-23 18:20:33.020000', NULL),
+(9, 'username1111', '$2a$10$MYcm.2lyOMRUn0TZLoUcd..faatWXjJmwYz9D86UCNwho2B64d/gy', 'username@gmail.com', 'USER', b'1', '2023-10-23 18:23:21.048000', NULL),
+(10, 'username11111', '$2a$10$OureWF1P.8BeXXFmu8DuWe.CnLpz/d3qtdKGISzmcnj.Cw4jCLrEe', 'username@gmail.com', 'USER', b'1', '2023-10-23 18:34:08.421000', NULL),
+(11, 'update', 'update', 'update@gmail.com', 'USER', b'1', '2023-10-23 18:38:15.991000', NULL),
+(12, 'username1121', '$2a$10$Vif.pfydMQXZ.B6ZFSGNMeEus2DkNP9CpPgneAnHRcOtro940CgW.', 'username@gmail.com', 'USER', b'1', '2023-10-23 20:29:00.247000', NULL),
+(13, 'username11211', '$2a$10$MqGkJBZ7VbSHnv8DM0QZ/uRMls2CvSC5LuIh6.IdUIyUdt/0.FvBu', 'username@gmail.com', 'USER', b'1', '2023-10-25 04:34:09.984000', NULL),
+(14, 'update', '$2a$10$St0bIu2rw1SLEnRvdQhAIu18JjBEm.cMmSqbf0eOoI9fhfQaMZJTG', 'update@gmail.com', 'USER', b'1', '2023-10-27 06:06:16.676000', NULL),
+(15, 'userupdated', '$2a$10$pVdnTRejfp43X4tWLOsr9OrHXrY4pavm05ScwHzdeEMW9T/taujUG', 'update@gmail.com', 'USER', b'1', '2023-10-27 06:10:59.312000', NULL),
+(16, 'qssss', '$2a$10$O0Kii9lHiibEmHCMsCwv9.ZeApqG.OTak1IZlXuur7InYe7/M5v2S', 'username@gmail.com', 'USER', b'1', '2023-10-27 10:08:33.756000', NULL),
+(17, 'anbquan1', '$2a$10$rrF6h3FYxZPGoumAp1SbPOb20s9WSMD7mUnqagPFs7eg05vFz.ZH.', 'username@gmail.com', 'USER', b'1', '2023-10-27 10:09:54.854000', NULL),
+(18, 'anbquan771', '$2a$10$YEh9dJcW1EXaViHQU9XioOX3J4InM0zdFhZQE5IUByStu6HRjcJ72', 'username@gmail.com', 'USER', b'1', '2023-10-27 10:15:09.021000', NULL),
+(19, 'userupdatd', '$2a$10$.ZdiTYWOyNKXcLBuRZJ/Zu2U3wBZnqg6E7C5Dd6PYVjnI108LrssO', 'update@gmail.com', 'USER', b'1', '2023-10-27 23:09:14.757000', NULL),
+(20, 'anbquean7721', '$2a$10$08G5vUhvr8mIU15.M31jdeQyoHBjBNqvYkDOD.27ycnKsv.hlIzV.', 'username@gmail.com', 'USER', b'1', '2023-11-07 10:20:15.775000', NULL),
+(21, '1', '$2a$10$kZGEQQilvbu2SEckYe.XTOZ/BEM8f9ySUjztja01O0T1xQwbuLRGS', 'username@gmail.com', 'USER', b'1', '2023-11-12 11:09:34.605000', b'1'),
+(22, '2', '$2a$10$RETm7dXI.HuCIWyeEbDwguI8iAsbqlBNEA47wO/DJ0AL6IFra6eH.', 'quan52188@donga.edu.vn', 'USER', b'1', '2023-11-13 11:59:35.889000', b'1'),
+(23, '3', '$2a$10$4E/RlqFW.KCfecaX48P9sO/xUdiWARXXf38JdK5Tcpb02QmIMjIQW', 'quan52188@donga.edu.vn', 'USER', b'1', '2023-11-13 12:05:28.941000', b'1'),
+(24, '4', '$2a$10$xzbeWiO4busI5kOi8094fOQzd9y6aUlMqOFH.WcLkLDT.pBFH13zy', 'nhinsangngang@Gmail.com', 'USER', b'1', '2023-11-13 12:41:55.355000', b'0'),
+(25, '5', '$2a$10$jtl7GmbWCRsB5UcB.g9Qq.HKiF4QyoDKNUq4GlZVpaIsgNUItLIea', 'nhinlaisangngang@Gmail.com', 'USER', b'1', '2023-11-13 12:43:42.096000', b'0'),
+(26, '6', '$2a$10$CbSlNu4wGwL6uIazNsLUdupC6gs4CscK7BGpomoLi2DkBzGlp0z0O', 'nhinlaisangngang@Gmail.com', 'USER', b'1', '2023-11-13 14:03:01.320000', b'0');
 
 -- --------------------------------------------------------
 
@@ -216,7 +230,13 @@ INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (17, 2),
 (18, 2),
 (19, 2),
-(20, 2);
+(20, 2),
+(21, 2),
+(22, 2),
+(23, 2),
+(24, 2),
+(25, 2),
+(26, 2);
 
 -- --------------------------------------------------------
 
@@ -240,14 +260,11 @@ CREATE TABLE `videos` (
 --
 
 INSERT INTO `videos` (`video_id`, `title`, `description`, `filename`, `upload_date`, `duration`, `channel_id`, `video_url`) VALUES
-(4, 'Video 1', 'Description 1', 'video1.mp4', '2023-01-15 00:00:00', 300, 10, NULL),
-(5, 'Video 2', 'Description 2', 'video2.mp4', '2023-02-20 00:00:00', 240, 11, NULL),
-(6, 'Video 3', 'Description 3', 'video3.mp4', '2023-03-12 00:00:00', 180, 12, NULL),
-(12, 'test 1', 'test 1', 'test 1', '2023-11-11 14:12:23', 284328, 17, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/c73f45af-d29a-4c7a-8513-fe1bc99733c6?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1699715537&Signature=TeeStSAcKUzZikY0%2FmAhZK5gsEnjXPMZnO%2FVC5UnO91bZraEApmpw65%2FiXuYljO7Y6RAF3u4pT3orxi29%2B%2BDJkIvO9QZ9u7EcZqgZ8LI2as4JpDoxR6Maejgfp1CJLOHbxkBjv0%2FyPXB7GSFRt75Vmkafq5V%2BtpRhuamUfR7ybLqF1bHtIVKXszGTnl7HIKma0qfebC4C83zBNjtcKILw6dqWvofHYvOFMMq2tKg84gFWtdbvF%2Bo1C33Bo7DNT%2F2bSg9apT7fIJj4YQlRuW0g%2BhTV9IgcPX3%2B3NNyh4OT0MZMGJxScLhxCVV6xg5qiqNWZdhrl%2BDx59XwhYFrXHImQ%3D%3D'),
-(13, 'test 1', 'test 1', 'test 1', '2023-11-11 17:08:22', 284328, 17, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/f7a3bf4e-6624-4015-98ce-ff7c916e2fe3?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1699726096&Signature=NYxBl6g5G9lO002oGuQBsetHwm0R8sv0qrW%2Bc748dy1uw3Q9DfSSUCUliTRpDFOv%2BPr%2B2j%2Fc8kzilhdKNZ0KR1xaGuoy9P2boOcRacleK%2B1u45mM3ttfTsp1KWCmm9jIdKSWCo%2Bzn3jxhEbgokl0WCroG%2F1aYkDmEwgqJfNbGrMoBfNk1BqK6YWRRlbVrfDb8fKi2DmDbE46tzWo5BiTvglP%2FnpuJFzxyrGrox4ZSIbGC1m6ALb9%2F6dtxjTWIFibV7Cxovn3LzPd%2BtyBhCeoHVsuwF%2BhUjgTUBUPssFrCnPIvSp3UKmAuR3H45GDg9fUck07l3wlO2R9J6O9bDdh%2FA%3D%3D'),
-(14, 'test 1', 'test 1', 'test 1', '2023-11-11 17:09:29', 284328, 18, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/90c638ab-52e7-4bcc-8968-f69321f1f148?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1699726168&Signature=Dtk6jlkMG0TAIEZNwxN39ofGI5yxiuAgqXJUEuQse1jyfStxWupvvR6HnuhmegSd%2BjzqoAa9fqu4j7WgAIDb6%2Bfs9kBEjF9Z6F21sG70sw5nFrg%2B5J09x9pSzaE6BHVAVwKdjCvSPRGygBdMVk4rC8w3PfGlVMA6gEGizzLt5HwSwtRh7OfzkVTOT6q%2BrGKIPu0ASUIIt9DdgPnooBR2uGfKFqZilmA7dmgih%2BeovVQU%2BdVdm5D%2Bel5iDoZZCCmZ1Odk2XcSrsBL%2Bf45BGcgkZcS2HTHf4SXu3PeCQVqHbYAM2e1Y2dIHZDir3YQ7ntOuvPXuDRMQZE4HP8mFQqTpQ%3D%3D'),
-(15, 'test 1', 'test 1', 'test 1', '2023-11-12 07:30:04', 284328, 17, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/506541ab-2055-477b-ba20-3250fbbf15f0?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1699777797&Signature=dU7bGkVuZxfCDHSBYNGgn7TjNsqUf6E5Di4l2CVnmKBEp2r9B6bry0XZQZO8QJavcYkm5lk1xg7GTnDngMLkHl2D7T2EshSDgCG%2BiPn3f0IS2M3XhnMVElmIjJ3Z1aY9G7S6v0cHESLc3SoMXf3MSURopOdSWnIpDEfwPRY9249EyPdo5Z2eiz5hCwyS4uF1mW0Dk6EouvsnXEQUvcKptm%2BwikTIxfeLIsqCBQ9eakNeJf2h3f4tr4cRmwcKJi%2FUP7tD%2BKgItiRxAVn1UvBk65RA0EygwX45w0HZcSv8yHXQLZxyfvJg83yzu%2Bw2v8GhkSjhhYszl%2Bzn8kpcGKlANw%3D%3D'),
-(16, 'test 1', 'test 1', 'test 1', '2023-11-12 07:32:47', 284328, 17, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/fdff7d3a-1daa-4854-b3bf-1f5ecd799113?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1699777961&Signature=l1b%2BGvb116adFeEq9fsOV45d%2F%2BFlDgZYDdMSU31v7ADcO%2BbR9yoYJywD1%2Bx7GZ2KhrRCN0JdffSy4eBjslYOrAoXN8WASjTg3jxpPhqn0ZDIemclp9EIsEXgxn37aI94dlQQjXXZm5PDMq4CD2u9wonvVsAGsy5e3jVa6SX5tQTxGrfyGUJ0SvhlkQQ2FXV5xIx%2F%2B30X30M600KsleJyj2dkRIsMM0EHm8%2Bdz7W0iMG9KMrQNibkScTPT%2B2WzJXV%2FbIiCiI3yGSOoxu%2Fx5ApdTRUuKLY%2BCEGVJCKYJvghJ7Y4IP2Mjkqf2cSgF1x0dviY%2FNHMe6IZi6BwzrSM4jK4g%3D%3D');
+(18, 'update', 'update', 'test 1', '2023-11-12 11:16:17', 284328, 20, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/51c336f4-508e-4f14-b14b-a43cff7b18fa?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1731323771&Signature=I0v5DrMsf2SB1IzONsiDOEKa1lbjvXLU862gFNhIwOUnvMijB7MBUzyUlD8GCAeBK4Hrq%2FCqIRKC14o%2BK7rAGYRa%2B6cXPodQsqfPruHQQrms6pPrX9eabsb%2F5XaKXt7e%2B%2BJKBXjRxI%2FpWbVbIJ09bRhv9vl3NReHJl%2FNwRskU2aFMU7WqlXJYZLySXe%2BWZA6iES0IfACFFaRI1INEClqybG1vxUekqyRjLYgjgkI20q36BqVWrH%2BfPSl8J%2Ffv83hruEo%2F15WJAV0tlWeaI0dWoW%2F1kTlYqOEM90NQ6ehoA7rAq6w0yoWRAhyi8DsPSqqkdjK6xfVFl%2Bti6zx1NMsIw%3D%3D'),
+(20, 'test 1', 'test 1', 'test 1', '2023-11-13 18:44:58', 284328, 30, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/03024ebb-01af-4352-b79c-7a40cca2b057?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1731437092&Signature=CCpU3H0XbGfPM%2FCgOXTd6a12O%2FCpeGAjqgsJIuKUAOvm1yUSPzwrxl3s36Z2EmzguWz3u1864hq8sX4vc7d4ad7SHq0W9QuCpy9DhGqoN9U2eyuZNQ4Ms1gZfsvUv2zsKO8jWYW2yJf5YtSarAIRDtQ3VM%2BIpIrPxiqx%2F2JcE0SQCIVixhYIQOiOAg6wy2M9O%2FdCRIG8o3V3Zx2jr9LlfWeARH0sZ3RD6pfPdcednIX3%2FbvQ%2FmwkuUpokSwy34KQx9Br73KS6LK64uQ0QOHunzUcI8XtXZMs%2Fe0EE70xTQfeGGA369cTl5%2Flmdf0v0Qgb92nOHZyAsa314KZB%2BFy6A%3D%3D'),
+(21, 'test 1', 'test 1', 'test 1', '2023-11-13 18:45:15', 284328, 30, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/36bfacf8-3cde-4fc2-8c7c-fe949c6fdee5?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1731437113&Signature=dpW3iVvfItpCF%2FqN%2FCdEbNmLQz1t%2F4R%2B2IXrYrbBUjmvdDGfuwMHFrlfw7xPIq9w%2BxLqb6oxqhlMT4g13F%2B%2FJ6EdN70jhrRIGgXoU%2FM5tYn2%2BkYAaKRNDlRKqpAsTa0Qn%2BKGmws3pny%2FKa%2FKB73RFNbiOmRkH3DsxkDHAhv28PlMrPCKkQmgKVTuuwzq%2Bw9CKuM99gMAe8uFlcLpcyg1zNdYFxUr1U6m%2BQj0RUYcJV%2Fy%2FOcWgy5X0s5gKntYu4B1dCvJEkkWAyaPbR%2BYHxKXFl3NVhouvaDbQ4sK43QWEdWbFPLuFLa5Et5t%2FJSnm1DFU5FWDwuNCjdWLoI3kfxltg%3D%3D'),
+(22, 'test 1', 'test 1', 'test 1', '2023-11-13 18:45:50', 284328, 30, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/7887b130-3bc4-42c5-83bd-1f94df7c03fd?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1731437148&Signature=pbTd0JhstwKxp98AwD4j3QGrlStDfkP%2FxiQCDFJ3JI3s2XEbiepBkfsRiX0DGSpQtZKirlGTzKpApfNH%2F3HKdjVRzoJmudAkx9HjSt6PVO6qmz0WiPez5MgLOBPD4Le%2BxcmhSvn1qvnsedpUkZ6CVtySAq6eFAR8nwEfIKZ8t02ElZr%2FJ1eLIF%2BI25ydbMeqKqxk5Cst%2F4P%2BjQ3fCSa%2B0wQu8BTKJMa3E%2BizaxNIl1wbn466iIoR5LWoHi5DYgRUb3nsMC4VJdPUgGPpFQKpG2ZoQSjb4%2FQljKHnhRSqWNkqtCVl%2BM5giCdaKrIdT9s00iQUY9qXZohVFGClZSJYgQ%3D%3D'),
+(23, 'test 1', 'test 1', 'test 1', '2023-11-13 18:46:08', 284328, 30, 'https://storage.googleapis.com/videosharing-9c5f9.appspot.com/cdba6c58-e1d9-4884-bacd-106bdb537894?GoogleAccessId=firebase-adminsdk-sqzec@videosharing-9c5f9.iam.gserviceaccount.com&Expires=1731437167&Signature=Vp7FlROoSMBo1rp1jHYkHPy1XjtFKPOCIpsb30WG01z82B%2FZLopS8mDooCzwo1dBkSF3S8V5zIE7RZ1RXSbzr0rQ0miDSAsD5ZGxhKuIXygc6uHoObLRDYkMIMZkN3%2FIlpoGR3AlOVPNBPWWBnodudFL1yvBxyd5Fgz1t7EApWh1pxpcutNg%2BE8iPT49QKvOl%2F21eFQkKu1xnyAdaP2OgoEnPawCWNPFipo%2B2F5r6kqx9JNRND9nW%2BtGKnxvGindWScfE3r9YajR9CEYiIitXUkA0eTzRvlaD%2FcU%2B3PntwnbSGjkNC%2BI54cr35LrkmSdx7GJMcf5OMFO1wg1YBW3jQ%3D%3D');
 
 -- --------------------------------------------------------
 
@@ -266,9 +283,7 @@ CREATE TABLE `video_categories` (
 --
 
 INSERT INTO `video_categories` (`category_mapping_id`, `video_id`, `category_id`) VALUES
-(1, 4, 1),
-(2, 5, 2),
-(3, 6, 3);
+(4, 18, 1);
 
 -- --------------------------------------------------------
 
@@ -289,9 +304,7 @@ CREATE TABLE `video_ratings` (
 --
 
 INSERT INTO `video_ratings` (`rating_id`, `video_id`, `user_id`, `rating`, `rated_date`) VALUES
-(1, 4, 4, 5, '2023-01-20 00:00:00'),
-(2, 5, 5, 4, '2023-03-01 00:00:00'),
-(3, 6, 6, 3, '2023-03-25 00:00:00');
+(7, 18, 21, 4, '2023-11-13 11:24:55');
 
 -- --------------------------------------------------------
 
@@ -330,9 +343,7 @@ CREATE TABLE `video_tags_mapping` (
 --
 
 INSERT INTO `video_tags_mapping` (`mapping_id`, `video_id`, `tag_id`) VALUES
-(1, 4, 1),
-(2, 5, 2),
-(3, 6, 3);
+(4, 18, 1);
 
 -- --------------------------------------------------------
 
@@ -346,18 +357,6 @@ CREATE TABLE `video_views` (
   `viewer_ip` varchar(50) NOT NULL,
   `view_datetime` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `video_views`
---
-
-INSERT INTO `video_views` (`view_id`, `video_id`, `viewer_ip`, `view_datetime`) VALUES
-(1, 4, '192.168.1.1', '2023-01-17 00:00:00'),
-(2, 5, '192.168.1.2', '2023-02-26 00:00:00'),
-(3, 6, '192.168.1.3', '2023-03-20 00:00:00'),
-(4, 4, '{\r\n  \"viewerIp\"  :\"192.168.1.1.1\"\r\n}', '2023-10-27 20:34:38'),
-(5, 4, '{\r\n  \"viewerIp\"  :\"192.168.1.1.1\"\r\n}', '2023-10-27 20:35:32'),
-(6, 4, '0:0:0:0:0:0:0:1', '2023-10-27 20:48:36');
 
 --
 -- Indexes for dumped tables
@@ -477,19 +476,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `channel_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `channel_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `comment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `refresh_token`
 --
 ALTER TABLE `refresh_token`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -501,31 +500,31 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user_channel_subs`
 --
 ALTER TABLE `user_channel_subs`
-  MODIFY `sub_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `sub_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `video_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `video_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `video_categories`
 --
 ALTER TABLE `video_categories`
-  MODIFY `category_mapping_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `category_mapping_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `video_ratings`
 --
 ALTER TABLE `video_ratings`
-  MODIFY `rating_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `rating_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `video_tags`
@@ -537,7 +536,7 @@ ALTER TABLE `video_tags`
 -- AUTO_INCREMENT for table `video_tags_mapping`
 --
 ALTER TABLE `video_tags_mapping`
-  MODIFY `mapping_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `mapping_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `video_views`

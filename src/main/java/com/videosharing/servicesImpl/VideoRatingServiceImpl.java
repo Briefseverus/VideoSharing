@@ -1,6 +1,7 @@
 package com.videosharing.servicesImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,50 +26,56 @@ public class VideoRatingServiceImpl implements VideoRatingService {
 	}
 
 	@Override
-	public VideoRating createVideoRating(VideoRating videoRating) {
-		return videoRatingRepository.save(videoRating);
+	public VideoRating createVideoRating(VideoRating videoRating) throws Exception {
+	    Optional<VideoRating> existingRating = videoRatingRepository.findByUserIdAndVideoId(videoRating.getUser().getId(), videoRating.getVideo().getId());
+	    if (existingRating.isPresent()) {
+	        throw new Exception("already rate this video");
+	    } else {
+	        return videoRatingRepository.save(videoRating);
+	    }
 	}
 
+
 	@Override
-	public VideoRating updateVideoRating(Integer userId,Integer id, VideoRating videoRating) {
-//		VideoRating videoRating = videoRatingRepository.findByUserIdAndVideoId(userId, videoRating.getVideo().getId()).orElse(null);
-//		    if (existingVideoRating != null) {
-//		        existingVideoRating.setRating(videoRating.getRating());
-//		        return videoRatingRepository.save(existingVideoRating);
-//		    } else {
-//		        return null;
-//		    }
-		return null;
+	public VideoRating updateVideoRating(Integer userId, Integer id, VideoRating videoRating) {
+		VideoRating existingVideoRating = videoRatingRepository
+				.findByUserIdAndVideoId(userId, videoRating.getVideo().getId()).orElse(null);
+		if (existingVideoRating != null) {
+			existingVideoRating.setRating(videoRating.getRating());
+			return videoRatingRepository.save(existingVideoRating);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public void deleteVideoRating(Integer id) {
-	    VideoRating videoRating = videoRatingRepository.findById(id).orElse(null);
-	    if (videoRating != null) {
-	        videoRatingRepository.delete(videoRating);
-	    }
+		VideoRating videoRating = videoRatingRepository.findById(id).orElse(null);
+		if (videoRating != null) {
+			videoRatingRepository.delete(videoRating);
+		}
 	}
-	
-	
+
 	@Override
 	public void deleteVideoRating(Integer userId, Integer videoId) {
 		VideoRating videoRating = videoRatingRepository.findByUserIdAndVideoId(userId, videoId).orElse(null);
 		if (videoRating != null) {
-			 videoRatingRepository.delete(videoRating);
-		} 
+			videoRatingRepository.delete(videoRating);
+		}
 
 	}
+
 	@Override
 	public VideoRating updateVideoRating(Integer id, VideoRating videoRating) {
-	    VideoRating existingVideoRating = videoRatingRepository.findById(id).orElse(null);
-	    if (existingVideoRating != null) {
-	        existingVideoRating.setRating(videoRating.getRating());
-	        return videoRatingRepository.save(existingVideoRating);
-	    } else {
-	        return null;
-	    }
+		VideoRating existingVideoRating = videoRatingRepository.findById(id).orElse(null);
+		if (existingVideoRating != null) {
+			existingVideoRating.setRating(videoRating.getRating());
+			return videoRatingRepository.save(existingVideoRating);
+		} else {
+			return null;
+		}
 	}
-	
+
 	@Override
 	public Integer getAverageRatingByVideoId(Integer videoId) {
 		List<VideoRating> videoRatings = videoRatingRepository.findByVideoId(videoId);
@@ -81,7 +88,6 @@ public class VideoRatingServiceImpl implements VideoRatingService {
 		} else {
 			return null;
 		}
-
 	}
 
 	@Override
@@ -94,4 +100,12 @@ public class VideoRatingServiceImpl implements VideoRatingService {
 		}
 	}
 
+	@Override
+	public boolean isOwner(Integer userId, Integer ratingId) {
+		VideoRating rating = videoRatingRepository.findById(ratingId).orElse(null);
+		if (rating == null) {
+			return false;
+		}
+		return rating.getUser().getId().equals(userId);
+	}
 }

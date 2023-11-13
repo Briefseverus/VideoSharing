@@ -15,6 +15,6 @@ public class VideoDTO {
 	private int channelId;
 	private String videoUrl;
 	private Integer viewCount;
-	
+	private Integer rating;
 
 }

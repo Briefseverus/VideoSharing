@@ -14,4 +14,5 @@ public class UserDTO {
 	private boolean enabled;
 	private String role;
 	private boolean isOwner;
+	private boolean isVip;
 }

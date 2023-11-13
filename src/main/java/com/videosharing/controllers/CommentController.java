@@ -47,7 +47,7 @@ public class CommentController {
 		return commentMapper.toDTO(commentService.getCommentById(id));
 	}
 
-	@GetMapping("/{videoId}")
+	@GetMapping("/video/{videoId}")
 	public List<CommentDTO> getAllCommentsFromVideo(@PathVariable Integer videoId) {
 		return commentMapper.toDTOList(commentService.getAllCommentByVideoId(videoId));
 	}

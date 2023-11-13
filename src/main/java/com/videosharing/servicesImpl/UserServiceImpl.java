@@ -137,4 +137,10 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUsername(username).get().getId();
 
 	}
+
+	@Override
+	public void buyVip(User user) {
+		user.setVip(true);
+		userRepository.save(user);
+	}
 }

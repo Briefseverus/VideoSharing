@@ -57,17 +57,23 @@ public class ChannelController {
 	    return channelDTOs;
 	}
 
-
 	@PostMapping
-	public ChannelDTO createChannel(@RequestBody ChannelDTO channelDTO) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
-		Channel channel = channelMapper.toModel(channelDTO);
-		User currentUser = currentUserDetails.getUser();
-		channel.setCreator(currentUser);
-		return channelMapper.toDTO(channelService.createChannel(channel));
-	}
+	public ResponseEntity<String> createChannel(@RequestBody ChannelDTO channelDTO) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails currentUserDetails = (CustomUserDetails) authentication.getPrincipal();
+	    User currentUser = currentUserDetails.getUser();
+	    boolean vip = currentUser.isVip();
+	    if (!currentUser.isVip() && !vip) {
+	        if (currentUser.getChannels().size() >= 2) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bạn đã đạt đến giới hạn tạo channel. Hãy mua VIP để tạo nhiều hơn");
+	        }
+	    }
+	    Channel channel = channelMapper.toModel(channelDTO);
+	    channel.setCreator(currentUser);
+	    channelService.createChannel(channel);
 
+	    return ResponseEntity.ok("Tạo mới channel thành công");
+	}
 	@PutMapping("/{id}")
 	public ResponseEntity<ChannelDTO> updateChannel(@PathVariable Integer id, @RequestBody ChannelDTO channelDTO) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
